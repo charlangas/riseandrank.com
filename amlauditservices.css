@@ -1,24 +1,24 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #003a6d;
-  --primary-color-hover: #071420;
-  --secondary-color: #fcaf17; 
-  --text-primary: #1c2126; 
-  --text-secondary: #4a5965;
+  --primary-color: #f98509;
+  --primary-color-hover: #ac6010;
+  --secondary-color: #2fd0ca; 
+  --text-primary: #0dd0cb; 
+  --text-secondary: #5f4e3b;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #003a6d;
-  --background-secondary: #1f64a0;
-  --background-light-color: #e8eff4;
-  --footer-background: #0b1823;
+  --background-primary: #3e4545;
+  --background-secondary: #3e4545;
+  --background-light-color: #ebf8f7;
+  --footer-background: #3e4545;
 
-  --background-image: url('https://www.accessretirementsolutions.com/wp-content/uploads/2021/05/Access-Retirement-Solutions-Your-Retirement-2.jpg');
+  --background-image: url('https://www.amlauditservices.com/wp-content/uploads/2016/03/AML_Slide2.png');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-primary: "Source Sans 3", sans-serif;
+  --font-heading: "Playfair Display", serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -26,9 +26,9 @@
   --grid-gap: clamp(1.5rem, 4vw, 2rem);
   
   /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
   
   /* Transitions */
   --transition-base: 0.3s ease-in-out;
@@ -164,7 +164,7 @@ svg {
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: var(--background-primary);
+    background: var(--background-white);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
@@ -177,14 +177,6 @@ svg {
   
   .nav-logo img {
     height: 60px;
-  }
-
-  .nav .btn-primary {
-    background-color: #032c50;
-  }
-
-  .nav .btn-primary:hover {
-    background-color: #06223b;
   }
   
   .nav-menu {
@@ -200,7 +192,7 @@ svg {
   }
   
   .nav-links a {
-    color: var(--text-contrast);
+    color: var(--text-primary);
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition-base);

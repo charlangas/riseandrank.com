@@ -1,24 +1,24 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #003a6d;
-  --primary-color-hover: #071420;
-  --secondary-color: #fcaf17; 
-  --text-primary: #1c2126; 
-  --text-secondary: #4a5965;
+  --primary-color: #066fcb;
+  --primary-color-hover: #0d497e;
+  --secondary-color: #02b644; 
+  --text-primary: #191e22; 
+  --text-secondary: #475561;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #003a6d;
-  --background-secondary: #1f64a0;
+  --background-primary: #066fcb;
+  --background-secondary: #3aa2fe;
   --background-light-color: #e8eff4;
-  --footer-background: #0b1823;
+  --footer-background: #091825;
 
-  --background-image: url('https://www.accessretirementsolutions.com/wp-content/uploads/2021/05/Access-Retirement-Solutions-Your-Retirement-2.jpg');
+  --background-image: url('https://images.squarespace-cdn.com/content/v1/5a01c0a2a803bbbf33c0d35e/1511755304991-ZOL17X8W4U1PAL32OBIZ/pexels-photo-237018.jpg');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-primary: "Cardo", serif;
+  --font-heading: "Montserrat", sans-serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -164,7 +164,7 @@ svg {
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: var(--background-primary);
+    background: var(--background-white);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
@@ -177,14 +177,6 @@ svg {
   
   .nav-logo img {
     height: 60px;
-  }
-
-  .nav .btn-primary {
-    background-color: #032c50;
-  }
-
-  .nav .btn-primary:hover {
-    background-color: #06223b;
   }
   
   .nav-menu {
@@ -200,7 +192,7 @@ svg {
   }
   
   .nav-links a {
-    color: var(--text-contrast);
+    color: var(--text-primary);
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition-base);

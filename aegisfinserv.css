@@ -1,24 +1,24 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #003a6d;
-  --primary-color-hover: #071420;
-  --secondary-color: #fcaf17; 
-  --text-primary: #1c2126; 
-  --text-secondary: #4a5965;
+  --primary-color: #ff6663;
+  --primary-color-hover: #b2605e;
+  --secondary-color: #0b3954; 
+  --text-primary: #291716; 
+  --text-secondary: #683938;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #003a6d;
-  --background-secondary: #1f64a0;
-  --background-light-color: #e8eff4;
-  --footer-background: #0b1823;
+  --background-primary: rgb(16, 82, 140);
+  --background-secondary: rgb(16, 82, 140);
+  --background-light-color: rgb(231, 239, 246);
+  --footer-background: #160404;
 
-  --background-image: url('https://www.accessretirementsolutions.com/wp-content/uploads/2021/05/Access-Retirement-Solutions-Your-Retirement-2.jpg');
+  --background-image: url('images/cta5.jpg');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-primary: "Alice", serif;
+  --font-heading: "Playfair Display", serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -164,7 +164,7 @@ svg {
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: var(--background-primary);
+    background: rgb(16, 82, 140);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
@@ -177,14 +177,6 @@ svg {
   
   .nav-logo img {
     height: 60px;
-  }
-
-  .nav .btn-primary {
-    background-color: #032c50;
-  }
-
-  .nav .btn-primary:hover {
-    background-color: #06223b;
   }
   
   .nav-menu {
@@ -279,7 +271,7 @@ body.no-scroll {
   /* Hero Section */
   .hero {
     padding: calc(var(--section-spacing) + 80px) 0 var(--section-spacing);
-    background: linear-gradient(to right, rgba(10, 24, 38, 0.7), rgba(54, 84, 61, 0.2)), var(--background-image);
+    background: linear-gradient(to right, rgba(16, 10, 38, 0.7), rgba(54, 54, 84, 0.2)), var(--background-image);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

@@ -1,24 +1,24 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #003a6d;
-  --primary-color-hover: #071420;
-  --secondary-color: #fcaf17; 
-  --text-primary: #1c2126; 
-  --text-secondary: #4a5965;
+  --primary-color: #b7a250;
+  --primary-color-hover: #6a5f33;
+  --secondary-color: #007bff; 
+  --text-primary: #262316; 
+  --text-secondary: #655d3a;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #003a6d;
-  --background-secondary: #1f64a0;
-  --background-light-color: #e8eff4;
-  --footer-background: #0b1823;
+  --background-primary: #b7a250;
+  --background-secondary: #ead895;
+  --background-light-color: rgb(223, 235, 226);
+  --footer-background: #1d1803;
 
-  --background-image: url('https://www.accessretirementsolutions.com/wp-content/uploads/2021/05/Access-Retirement-Solutions-Your-Retirement-2.jpg');
+  --background-image: url('https://aamisit.com/wp-content/uploads/2020/05/home_banner.png');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-primary: "Cardo", serif;
+  --font-heading: "Montserrat", sans-serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -164,7 +164,7 @@ svg {
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: var(--background-primary);
+    background: rgb(30, 91, 47);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
@@ -177,14 +177,6 @@ svg {
   
   .nav-logo img {
     height: 60px;
-  }
-
-  .nav .btn-primary {
-    background-color: #032c50;
-  }
-
-  .nav .btn-primary:hover {
-    background-color: #06223b;
   }
   
   .nav-menu {
@@ -280,9 +272,10 @@ body.no-scroll {
   .hero {
     padding: calc(var(--section-spacing) + 80px) 0 var(--section-spacing);
     background: linear-gradient(to right, rgba(10, 24, 38, 0.7), rgba(54, 84, 61, 0.2)), var(--background-image);
-    background-position: center;
+    background-position: 25% 75%;
     background-size: cover;
     background-repeat: no-repeat;
+    margin-top: 40px;
 }
 
 .hero-grid {
@@ -362,7 +355,7 @@ h1 {
   /* How It Works Section */
 .how-it-works {
     padding: var(--section-spacing) 0;
-    background: var(--background-secondary);
+    background: rgb(30, 91, 47);
 }
 
 .how-it-works .section-header, .how-it-works .section-header p {

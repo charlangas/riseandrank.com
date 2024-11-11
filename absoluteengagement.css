@@ -1,24 +1,24 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #003a6d;
-  --primary-color-hover: #071420;
-  --secondary-color: #fcaf17; 
-  --text-primary: #1c2126; 
-  --text-secondary: #4a5965;
+  --primary-color: #eb464d;
+  --primary-color-hover: #9e363b;
+  --secondary-color: #0000ee; 
+  --text-primary: #281819; 
+  --text-secondary: #673e40;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #003a6d;
-  --background-secondary: #1f64a0;
-  --background-light-color: #e8eff4;
-  --footer-background: #0b1823;
+  --background-primary: #eb464d;
+  --background-secondary: #ff7e84;
+  --background-light-color: #f4e8e9;
+  --footer-background: rgb(0, 13, 29);
 
-  --background-image: url('https://www.accessretirementsolutions.com/wp-content/uploads/2021/05/Access-Retirement-Solutions-Your-Retirement-2.jpg');
+  --background-image: url('https://cdn.prod.website-files.com/6009861833633193d4c53c2d/63348172603dbf44ced40d1b_AE background video - compressed-transcode.mp4');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-primary: "Source Sans 3", sans-serif;
+  --font-heading: "Playfair Display", serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -164,7 +164,7 @@ svg {
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: var(--background-primary);
+    background: rgb(0, 13, 29);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
@@ -177,14 +177,6 @@ svg {
   
   .nav-logo img {
     height: 60px;
-  }
-
-  .nav .btn-primary {
-    background-color: #032c50;
-  }
-
-  .nav .btn-primary:hover {
-    background-color: #06223b;
   }
   
   .nav-menu {
@@ -279,12 +271,31 @@ body.no-scroll {
   /* Hero Section */
   .hero {
     padding: calc(var(--section-spacing) + 80px) 0 var(--section-spacing);
-    background: linear-gradient(to right, rgba(10, 24, 38, 0.7), rgba(54, 84, 61, 0.2)), var(--background-image);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background: var(--background-light);
 }
-
+.hero video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 800px;
+    object-fit: cover;
+    z-index: 0;
+}
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 800px;
+    background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    z-index: 1;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
 .hero-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -292,12 +303,12 @@ body.no-scroll {
     align-items: center;
 }
 
-.hero-content {
-    max-width: 600px;
+.hero h1 {
+    color: var(--text-contrast);
 }
 
-h1 {
-    color: var(--text-contrast);
+.hero-content {
+    max-width: 600px;
 }
 
 .hero-subtitle {
@@ -312,22 +323,39 @@ h1 {
     margin-bottom: 2rem;
 }
 
+.hero-cta .btn-primary {
+    background-color: #fff;
+    color: #190b25;
+}
+
+.hero-cta .btn-primary:hover {
+    background-color: var(--background-light);
+}
+
+.hero-cta .btn-secondary {
+    background-color: none;
+    border: #fff solid 3px;
+    color: #fff;
+}
+
+.hero-cta .btn-secondary svg {
+    fill: #fff;
+}
+
+.hero-cta .btn-secondary:hover {
+    background-color: #fff;
+    color: #190b25;
+}
+
+.hero-cta .btn-secondary:hover svg {
+    fill: #190b25;
+}
+
 .hero-rating {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     color: var(--text-contrast);
-}
-
-.hero .btn-secondary {
-    color: var(--text-contrast);
-    border: 3px solid var(--text-contrast)
-}
-.hero .btn-secondary svg {
-    fill: var(--text-contrast);
-}
-.hero .btn-secondary:hover {
-    border: 3px solid var(--primary-color-hover)
 }
 
 .star-rating {
@@ -362,7 +390,7 @@ h1 {
   /* How It Works Section */
 .how-it-works {
     padding: var(--section-spacing) 0;
-    background: var(--background-secondary);
+    background: rgb(0, 13, 29);
 }
 
 .how-it-works .section-header, .how-it-works .section-header p {

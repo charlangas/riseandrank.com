@@ -13,6 +13,8 @@
   --background-secondary: #2174a9;
   --background-light-color: #e8f0f4;
   --footer-background: #08151d;
+
+  --background-image: url('https://www.aragoncapital.com/wp-content/uploads/2016/11/aragon-capital-home.jpg');
   
   /* Typography */
   --font-primary: "Libre Baskerville", serif;
@@ -278,7 +280,7 @@ body.no-scroll {
   /* Hero Section */
 .hero {
     padding: calc(var(--section-spacing) + 80px) 0 var(--section-spacing);
-    background-image: url('https://www.aragoncapital.com/wp-content/uploads/2016/11/aragon-capital-home.jpg');
+    background-image: var(--background-image);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
