@@ -10,6 +10,27 @@ document.addEventListener('DOMContentLoaded', () => {
         body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
     });
 
+    // Smooth Scroll Implementation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                // Calculate header height for offset
+                const headerHeight = document.querySelector('.header').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
     // Enhanced Accordion functionality
     const accordionItems = document.querySelectorAll('.accordion-item');
     
