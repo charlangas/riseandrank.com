@@ -1,0 +1,32 @@
+/* variables.css */
+:root {
+    /* Colors */
+    --color-primary: #FFD701;
+    --color-primary-hover: #c07e03;
+    --color-dark: #000000;
+    --color-light: #F5F5F5;
+    --text-contrast: #FFFFFF;
+    
+    /* Typography */
+    --font-primary: 'Manrope', sans-serif;
+    --font-weight-regular: 300;
+    --font-weight-bold: 700;
+    
+    /* Font Sizes (converting pt to rem) */
+    --font-size-h1: 3rem;      /* 48pt */
+    --font-size-h2: 2.25rem;   /* 36pt */
+    --font-size-h3: 1.5rem;    /* 24pt */
+    --font-size-body: 1rem;    /* 16pt */
+    --font-size-cta: 0.875rem; /* 14pt */
+    
+    /* Spacing */
+    --spacing-unit: clamp(1rem, 2vw, 2rem);
+    
+    /* Container */
+    --container-max: 1200px;
+    --container-padding: clamp(1rem, 5vw, 3rem);
+    
+    /* Navigation */
+    --nav-height: 80px;
+    --mobile-nav-width: 280px;
+  }
