@@ -1,28 +1,28 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
-  --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color: #0000ee;
+  --primary-color-opacity: #0000ee00;
+  --primary-color-opacity2: #020219A8;
+  --primary-color-hover: #2a2aa1;
+  --secondary-color: #116dff; 
+  --text-primary: #1d1d29; 
+  --text-secondary: #4a4a68;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
-  --background-light-color: #e8eef4;
-  --footer-background: #0e1b28;
+  --background-primary: #0000ee;
+  --background-secondary: #3232ff;
+  --background-light-color: #e8e8f4;
+  --footer-background: #020219;
 
   --background-image1: url('images/nyc3.jpg');
-  --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --background-image2: url('images/nyc.jpg');
+  --about-image: url('images/about2.webp');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Quattrocento", serif;
+  --font-primary: "Montserrat", sans-serif;
+  --font-heading: "Cormorant Garamond", serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);

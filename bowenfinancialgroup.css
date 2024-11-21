@@ -1,28 +1,28 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
-  --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color: rgb(116, 181, 178);
+  --primary-color-opacity: rgba(255, 174, 140, 0);
+  --primary-color-opacity2: rgba(71, 59, 54, 0.8);
+  --primary-color-hover: rgb(177, 108, 78);
+  --secondary-color: rgba(255, 174, 140); 
+  --text-primary: rgb(13, 9, 7); 
+  --text-secondary: rgb(49, 44, 42);
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
-  --background-light-color: #e8eef4;
-  --footer-background: #0e1b28;
+  --background-primary: rgb(177, 108, 78);
+  --background-secondary: rgb(177, 108, 78);
+  --background-light-color: rgb(255, 246, 242);
+  --footer-background: rgba(0, 0, 0, 0.8);
 
-  --background-image1: url('images/nyc3.jpg');
-  --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --background-image1: url('images/retirement2.jpg');
+  --background-image2: url('images/family4.jpg');
+  --about-image: url('images/about3.webp');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Quattrocento", serif;
+  --font-primary: "Roboto", sans-serif;
+  --font-heading: "Lora", serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);

@@ -1,24 +1,24 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
-  --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color: #002059;
+  --primary-color-opacity: #00205900;
+  --primary-color-opacity2: #0a1428A8;
+  --primary-color-hover: #03060c;
+  --secondary-color: #003caa; 
+  --text-primary: #191d24; 
+  --text-secondary: #455063;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
-  --background-light-color: #e8eef4;
-  --footer-background: #0e1b28;
+  --background-primary: #002059;
+  --background-secondary: #1b448c;
+  --background-light-color: #e8ecf4;
+  --footer-background: #0a1428;
 
-  --background-image1: url('images/nyc3.jpg');
-  --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --background-image1: url('images/retirement1.jpg');
+  --background-image2: url('images/family1.jpg');
+  --about-image: url('images/about7.webp');
   
   /* Typography */
   --font-primary: "Inter", sans-serif;;
@@ -30,9 +30,9 @@
   --grid-gap: clamp(1.5rem, 4vw, 2rem);
   
   /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
   
   /* Transitions */
   --transition-base: 0.3s ease-in-out;

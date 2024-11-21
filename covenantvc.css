@@ -1,28 +1,28 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
+  --primary-color: #0270e0;
+  --primary-color-opacity: #0270e000;
   --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color-hover: #295d93;
+  --secondary-color: #e35f21; 
+  --text-primary: #1f242a; 
+  --text-secondary: #4e5b69;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
+  --background-primary: #0270e0;
+  --background-secondary: #3599ff;
   --background-light-color: #e8eef4;
   --footer-background: #0e1b28;
 
-  --background-image1: url('images/nyc3.jpg');
+  --background-image1: url('images/nyc.jpg');
   --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --about-image: url('images/about4.webp');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Quattrocento", serif;
+  --font-primary: "Libre Baskerville", serif;
+  --font-heading: "Outfit", sans-serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -30,9 +30,9 @@
   --grid-gap: clamp(1.5rem, 4vw, 2rem);
   
   /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
   
   /* Transitions */
   --transition-base: 0.3s ease-in-out;
@@ -168,7 +168,7 @@ svg {
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: var(--background-white);
+    background: var(--background-secondary);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   

@@ -1,28 +1,28 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
-  --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color: rgb(0, 0, 0);
+  --primary-color-opacity: rgb(81, 100, 115, 0);
+  --primary-color-opacity2: rgb(81, 100, 115, 66);
+  --primary-color-hover: rgb(60, 81, 97);
+  --secondary-color: rgb(53, 69, 82); 
+  --text-primary: rgb(0, 0, 0); 
+  --text-secondary:rgb(10, 12, 13) ;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
-  --background-light-color: #e8eef4;
-  --footer-background: #0e1b28;
+  --background-primary: rgb(81, 100, 115);
+  --background-secondary: rgb(81, 100, 115);
+  --background-light-color: #e7f5ff;
+  --footer-background: rgb(81, 100, 115);
 
-  --background-image1: url('images/nyc3.jpg');
-  --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --background-image1: url('https://static.fmgsuite.com/media/RotatorImage/variantSize/28af1761-f3a8-4195-9b44-c4d6f2529059.jpg');
+  --background-image2: url('images/nyc3.jpg');
+  --about-image: url('images/about7.webp');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Quattrocento", serif;
+  --font-primary: "Alice", serif;
+  --font-heading: "Playfair Display", serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);

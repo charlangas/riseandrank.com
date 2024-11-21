@@ -1,28 +1,24 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
-  --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color: #daab4b;
+  --primary-color-hover: #8d723a;
+  --secondary-color: #c2a039; 
+  --text-primary: #252118; 
+  --text-secondary: #645941;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
-  --background-light-color: #e8eef4;
-  --footer-background: #0e1b28;
+  --background-primary: rgb(39, 7, 4);
+  --background-secondary: rgb(39, 7, 4);
+  --background-light-color: #f4f0e8;
+  --footer-background: rgb(39, 7, 4);
 
-  --background-image1: url('images/nyc3.jpg');
-  --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --background-image: url('https://i.vimeocdn.com/video/1700143800-5871408a81160c5081243a63e45b2fcb78b47fe5e8852ada9660c9be68c6c1ef-d?mw=2500&mh=1810');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Quattrocento", serif;
+  --font-primary: "Roboto", sans-serif;
+  --font-heading: "Lora", serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -275,7 +271,7 @@ body.no-scroll {
 /* Hero Section */
 .hero {
     padding: calc(var(--section-spacing) + 80px) 0 var(--section-spacing);
-    background: linear-gradient(to right, var(--primary-color-opacity2), var(--primary-color-opacity)), var(--background-image1);
+    background: linear-gradient(to right, rgba(10, 24, 38, 0.7), rgba(54, 84, 61, 0.2)), var(--background-image);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -330,6 +326,7 @@ h1 {
     color: #fbbf24;
 }
 
+
   /* Trusted By Section */
 .trusted-by {
     padding: var(--section-spacing) 0;
@@ -358,7 +355,7 @@ h1 {
   /* How It Works Section */
 .how-it-works {
     padding: var(--section-spacing) 0;
-    background: var(--background-primary);
+    background: var(--background-secondary);
 }
 
 .how-it-works .section-header, .how-it-works .section-header p {
@@ -371,8 +368,8 @@ h1 {
 }
 
 .how-it-works .btn-secondary:hover {
-    color: var(--background-primary);
-    border-color: var(--background-primary);
+    color: var(--background-secondary);
+    border-color: var(--background-secondary);
     background-color: var(--text-contrast);
 }
 

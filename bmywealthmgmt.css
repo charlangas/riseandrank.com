@@ -1,28 +1,28 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
-  --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color: #06038d;
+  --primary-color-opacity: #06038d00;
+  --primary-color-opacity2: #080725A8;
+  --primary-color-hover: #050440;
+  --secondary-color: #0d304a; 
+  --text-primary: #141324; 
+  --text-secondary: #353463;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
-  --background-light-color: #e8eef4;
-  --footer-background: #0e1b28;
+  --background-primary: #06038d;
+  --background-secondary: #2d2ac0;
+  --background-light-color: #e8e8f4;
+  --footer-background: #080725;
 
-  --background-image1: url('images/nyc3.jpg');
-  --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --background-image1: url('images/retirement2.jpg');
+  --background-image2: url('images/family3.jpg');
+  --about-image: url('images/about2.webp');
   
   /* Typography */
   --font-primary: "Inter", sans-serif;;
-  --font-heading: "Quattrocento", serif;
+  --font-heading: "Plus Jakarta Sans", sans-serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);

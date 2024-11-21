@@ -1,28 +1,28 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: #1a5999;
-  --primary-color-opacity: #1a599900;
-  --primary-color-opacity2: #0e1b28A8;
-  --primary-color-hover: #132f4c;
-  --secondary-color: #1e88e5; 
-  --text-primary: #171e25; 
-  --text-secondary: #3e5164;
+  --primary-color: #2b7bb9;
+  --primary-color-opacity: #2b7bb900;
+  --primary-color-opacity2: #0c1a25A8;
+  --primary-color-hover: #1e4a6c;
+  --secondary-color: #6a1b32; 
+  --text-primary: #18232a; 
+  --text-secondary: #3c5569;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
-  --background-primary: #1a5999;
-  --background-secondary: #4b8bcc;
-  --background-light-color: #e8eef4;
-  --footer-background: #0e1b28;
+  --background-primary: #2b7bb9;
+  --background-secondary: #66b1ec;
+  --background-light-color: #e8eff4;
+  --footer-background: #0c1a25;
 
-  --background-image1: url('images/nyc3.jpg');
-  --background-image2: url('images/nyc2.jpg');
-  --about-image: url('images/about5.webp');
+  --background-image1: url('images/retirement2.jpg');
+  --background-image2: url('images/family2.jpg');
+  --about-image: url('images/about3.webp');
   
   /* Typography */
-  --font-primary: "Inter", sans-serif;;
-  --font-heading: "Quattrocento", serif;
+  --font-primary: "Cardo", serif;
+  --font-heading: "Plus Jakarta Sans", sans-serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -30,9 +30,9 @@
   --grid-gap: clamp(1.5rem, 4vw, 2rem);
   
   /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
   
   /* Transitions */
   --transition-base: 0.3s ease-in-out;
