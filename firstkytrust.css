@@ -1,22 +1,28 @@
 /* variables.css */
 :root {
   /* Colors */
-  --primary-color: rgb(0, 69, 124);
-  --primary-color-hover: #161d25;
+  --primary-color: #345172;
+  --primary-color-opacity: #34517200;
+  --primary-color-opacity2: #0b121bA8;
+  --primary-color-hover: #141c25;
   --secondary-color: #8cc4f1; 
-  --text-primary: #141d28; 
-  --text-secondary: #334c67;
+  --text-primary: #151c24; 
+  --text-secondary: #3a4d63;
   --text-contrast: #fff;
   --background-light: #f9fafb;
   --background-white: #ffffff;
   --background-primary: #345172;
   --background-secondary: #6c86a5;
   --background-light-color: #e8eef4;
-  --footer-background: #05111e;
+  --footer-background: #0b121b;
+
+  --background-image1: url('https://www.firstkytrust.com/wp-content/uploads/2016/05/FKT_WillHencken.jpg');
+  --background-image2: url('images/nyc.jpg');
+  --about-image: url('images/about5.webp');
   
   /* Typography */
-  --font-primary: "Roboto", sans-serif;
-  --font-heading: "Lora", serif;
+  --font-primary: "Open Sans", sans-serif;
+  --font-heading: "Raleway", sans-serif;
   
   /* Spacing */
   --container-padding: clamp(1rem, 5vw, 2rem);
@@ -266,10 +272,13 @@ body.no-scroll {
     width: 100%;
 }
   
-  /* Hero Section */
+/* Hero Section */
 .hero {
     padding: calc(var(--section-spacing) + 80px) 0 var(--section-spacing);
-    background: var(--background-light);
+    background: linear-gradient(to right, var(--primary-color-opacity2), var(--primary-color-opacity)), var(--background-image1);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .hero-grid {
@@ -283,9 +292,13 @@ body.no-scroll {
     max-width: 600px;
 }
 
+h1 {
+    color: var(--text-contrast);
+}
+
 .hero-subtitle {
     font-size: 1.25rem;
-    color: var(--text-secondary);
+    color: var(--text-contrast);
     margin-bottom: 2rem;
 }
 
@@ -299,23 +312,22 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    color: var(--text-secondary);
+    color: var(--text-contrast);
+}
+
+.hero .btn-secondary {
+    color: var(--text-contrast);
+    border: 3px solid var(--text-contrast)
+}
+.hero .btn-secondary svg {
+    fill: var(--text-contrast);
+}
+.hero .btn-secondary:hover {
+    border: 3px solid var(--primary-color-hover)
 }
 
 .star-rating {
     color: #fbbf24;
-}
-
-.hero-image {
-    position: relative;
-}
-
-.hero-image img {
-    width: 60vh;
-    height: 60vh;
-    object-fit: cover;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
   /* Trusted By Section */
@@ -336,7 +348,7 @@ body.no-scroll {
     height: 40px;
     opacity: 0.7;
     transition: var(--transition-base);
-    fill: var(--background-secondary);
+    fill: var(--primary-color-hover);
   }
   
   .trusted-by-logos svg:hover {
@@ -346,7 +358,7 @@ body.no-scroll {
   /* How It Works Section */
 .how-it-works {
     padding: var(--section-spacing) 0;
-    background: var(--background-secondary);
+    background: var(--background-primary);
 }
 
 .how-it-works .section-header, .how-it-works .section-header p {
@@ -359,8 +371,8 @@ body.no-scroll {
 }
 
 .how-it-works .btn-secondary:hover {
-    color: var(--background-secondary);
-    border-color: var(--background-secondary);
+    color: var(--background-primary);
+    border-color: var(--background-primary);
     background-color: var(--text-contrast);
 }
 
@@ -729,7 +741,7 @@ body.no-scroll {
 }
 
 .footer-brand img {
-    height: 40px;
+    height: 60px;
     margin-bottom: 1rem;
 }
 
