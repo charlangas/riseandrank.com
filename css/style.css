@@ -392,6 +392,32 @@ h3 {
         max-width: 100%;
    }
 }
+/* Free audit page */
+.free-audit {
+    min-height: 100vh;
+    background-color: #FFD701;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the text horizontally and vertically */
+  font-size: 20px; /* Adjust font size as needed */
+  position: absolute; /* Position over the widget area */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100; /* Ensure it's on top */
+}
+
+#audit .loaded #loading-message {
+  display: none; /* Hide the message once loaded */
+}
+
 /* FAQ Section */
 .faq-section {
     padding: 6rem 0;

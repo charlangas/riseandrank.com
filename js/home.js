@@ -64,6 +64,38 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 content.style.maxHeight = '0px';
             }
+        }); 
+    });
+    
+    // Loading screen
+    const auditContainer = document.getElementById('audit');
+    const loadingMessage = document.getElementById('loading-message'); // Get the loading message element
+
+    // Create a MutationObserver to watch for changes in the 'audit' container
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+                // Check if the added node is the widget iframe
+                const widgetIframe = auditContainer.querySelector('iframe');
+                if (widgetIframe) {
+                    widgetIframe.onload = () => {
+                        loadingMessage.style.display = 'none'; // Hide loading message
+                        observer.disconnect(); // Stop observing
+                    };
+                    // Error handling for iframe
+                    widgetIframe.onerror = () => {
+                        console.error("Widget iframe failed to load.");
+                        loadingMessage.style.display = 'none'; // Hide loading message on error
+                        const errorMessage = document.createElement('div');
+                        errorMessage.textContent = "Error loading widget.";
+                        auditContainer.appendChild(errorMessage);
+                        observer.disconnect(); // Stop observing
+                    }
+                }
+            }
         });
     });
+
+    // Start observing the 'audit' container for child list changes
+    observer.observe(auditContainer, { childList: true });
 });
