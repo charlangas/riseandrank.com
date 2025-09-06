@@ -140,11 +140,11 @@ section {
     font-size: 1.2rem;
     max-width: 80%;
 }
-.hero-image { height: 75vh; }
+.hero-image { width: 66vh; }
 .hero-image-wrapper {
     display: flex;
     justify-content: flex-end;
-    align-self: flex-end;
+    align-self: end;
 }
 
 /* --- MODIFIED: PROBLEM SECTION LAYOUT --- */
@@ -447,6 +447,7 @@ section {
     h2 { font-size: 2.25rem; }
     .grid-4-col, .grid-2-col { grid-template-columns: repeat(2, 1fr); }
     .hero-text .subheader { max-width: 100%; }
+    .hero-image { width: 66vw; }
     
     .problem-grid-container {
         grid-template-columns: 1fr 1fr;
