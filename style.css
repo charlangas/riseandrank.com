@@ -452,6 +452,14 @@ section {
   transform: translateY(0);
 }
 
+#hover-trigger {
+  color: var(--text-light);
+}
+
+#hover-trigger:hover {
+    color: var(--accent-yellow);
+}
+
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 992px) {
     h1 { font-size: 2.5rem; }

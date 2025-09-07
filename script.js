@@ -5,58 +5,41 @@ document.addEventListener('DOMContentLoaded', function () {
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
         question.addEventListener('click', () => {
-            // Close other open items
             const currentlyActive = document.querySelector('.faq-item.active');
             if (currentlyActive && currentlyActive !== item) {
                 currentlyActive.classList.remove('active');
             }
-            // Toggle the clicked item
             item.classList.toggle('active');
         });
     });
 
     // --- PROJECT CAROUSEL SCRIPT ---
     const track = document.querySelector('.carousel-track');
-    if (track) { // Only run if the carousel exists on the page
+    if (track) {
         const slides = Array.from(track.children);
         const nextButton = document.getElementById('nextBtn');
         const prevButton = document.getElementById('prevBtn');
         let currentIndex = 0;
-
-        // Function to move the carousel track
         const moveToSlide = (targetIndex) => {
-            if (!slides[targetIndex]) return; // Exit if slide doesn't exist
-            
+            if (!slides[targetIndex]) return;
             const amountToMove = slides[targetIndex].offsetLeft;
             track.style.transform = 'translateX(-' + amountToMove + 'px)';
             currentIndex = targetIndex;
             updateNavButtons();
         };
-
-        // Function to update the disabled state of nav buttons
         const updateNavButtons = () => {
             prevButton.disabled = currentIndex === 0;
-            
-            // Check if the last slide is fully visible
             const lastSlide = slides[slides.length - 1];
             const trackVisibleWidth = track.parentElement.offsetWidth;
             const lastSlideEndPosition = lastSlide.offsetLeft + lastSlide.offsetWidth;
-            
             nextButton.disabled = lastSlideEndPosition <= (slides[currentIndex].offsetLeft + trackVisibleWidth);
         };
-        
-        // Event listeners for buttons
         nextButton.addEventListener('click', e => {
-            // Find the first slide that is currently out of view to the right
-            let nextIndex = slides.findIndex(slide => {
-                return slide.offsetLeft > (slides[currentIndex].offsetLeft + 10); // +10 for small buffer
-            });
-            if(nextIndex === -1) nextIndex = slides.length - 1; // Go to last if none found
+            let nextIndex = slides.findIndex(slide => slide.offsetLeft > (slides[currentIndex].offsetLeft + 10));
+            if(nextIndex === -1) nextIndex = slides.length - 1;
             moveToSlide(nextIndex);
         });
-
         prevButton.addEventListener('click', e => {
-            // Find the first slide whose right edge is to the left of the current slide's left edge
             const currentSlideLeft = slides[currentIndex].offsetLeft;
             let prevIndex = -1;
             for(let i = currentIndex - 1; i >= 0; i--){
@@ -66,143 +49,102 @@ document.addEventListener('DOMContentLoaded', function () {
                     break;
                 }
             }
-            if(prevIndex === -1 && currentIndex > 0) prevIndex = 0; // If can't find a good one, go to start
+            if(prevIndex === -1 && currentIndex > 0) prevIndex = 0;
             if(prevIndex !== -1) moveToSlide(prevIndex);
         });
-
-        // Initial state
         moveToSlide(0);
-
-        // Optional: Recalculate on window resize
-        window.addEventListener('resize', () => {
-            moveToSlide(currentIndex);
-        });
+        window.addEventListener('resize', () => moveToSlide(currentIndex));
     }
     
     // --- INTERSECTION OBSERVER FOR FADE-IN ANIMATION ---
     const fadeElements = document.querySelectorAll('.fade-in-element');
-
-    const observerOptions = {
-      root: null, // observes intersections relative to the viewport
-      rootMargin: '0px',
-      threshold: 0.1 // Triggers when 10% of the element is visible
-    };
-
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        // If the element is intersecting the viewport
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          // Stop observing the element once it's visible
           observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
+    fadeElements.forEach(el => observer.observe(el));
 
-    // Start observing each of the elements
-    fadeElements.forEach(el => {
-      observer.observe(el);
-    });
+    // --- HERO FLICKER ANIMATION & HOVER LOGIC ---
 
-    // --- HERO FLICKER ANIMATION ---
+    const lamp = document.getElementById('hero-lamp');
+    const logo = document.getElementById('hero-logo');
+    const hero = document.getElementById('hero-section');
+    const hoverTrigger = document.getElementById('hover-trigger');
+
+    const animationAssets = {
+        lampOnSrc: 'img/lamp.svg',
+        lampOffSrc: 'img/lamp-off.svg',
+        logoOnSrc: 'img/logo-white.svg',
+        logoOffSrc: 'img/logo-moon.svg',
+        colorOn: '#010AD1',
+        colorOff: '#00008B'
+    };
 
     /**
-     * Preloads an array of image URLs.
-     * @param {string[]} urls - The image URLs to preload.
-     * @returns {Promise<void>} A promise that resolves when all images are loaded.
+     * Sets the visual state of hero elements to ON or OFF.
+     * @param {'on' | 'off'} state - The desired state.
      */
+    const setLightsState = (state) => {
+        if (!lamp || !logo || !hero) return;
+
+        if (state === 'on') {
+            lamp.src = animationAssets.lampOnSrc;
+            logo.src = animationAssets.logoOnSrc;
+            hero.style.backgroundColor = animationAssets.colorOn;
+        } else { // 'off'
+            lamp.src = animationAssets.lampOffSrc;
+            logo.src = animationAssets.logoOffSrc;
+            hero.style.backgroundColor = animationAssets.colorOff;
+        }
+    };
+
     const preloadImages = (urls) => {
-        const promises = urls.map(url => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = url;
-                img.onload = resolve;
-                img.onerror = reject;
-            });
-        });
+        const promises = urls.map(url => new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = url;
+            img.onload = resolve;
+            img.onerror = reject;
+        }));
         return Promise.all(promises);
     };
 
     const flickerAnimation = async () => {
-        // A helper function to pause execution for a given time in milliseconds
         const delay = ms => new Promise(res => setTimeout(res, ms));
-
-        const lamp = document.getElementById('hero-lamp');
-        const logo = document.getElementById('hero-logo');
-        const hero = document.getElementById('hero-section');
-        if (!lamp || !logo || !hero) return;
-
-        // Define image sources and colors
-        const lampOnSrc = 'img/lamp.svg';
-        const lampOffSrc = 'img/lamp-off.svg';
-        const logoOnSrc = 'img/logo-white.svg';
-        const logoOffSrc = 'img/logo-moon.svg';
-        const colorOn = '#010AD1';
-        const colorOff = '#000045';
-        
-        // List of images needed for the animation
-        const imagesToLoad = [lampOnSrc, logoOnSrc];
+        const imagesToLoad = [animationAssets.lampOnSrc, animationAssets.logoOnSrc];
 
         try {
-            // ** WAIT FOR IMAGES TO DOWNLOAD BEFORE STARTING **
             await preloadImages(imagesToLoad);
+            setLightsState('off');
 
-            // Set initial "off" state for the background
-            hero.style.backgroundColor = colorOff;
-
-            // The animation sequence
             await delay(1200);
-            lamp.src = lampOnSrc;
-            logo.src = logoOnSrc;
-            hero.style.backgroundColor = colorOn;
-
+            setLightsState('on');
             await delay(100);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(100);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(100);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(100);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(150);
-            lamp.src = lampOnSrc;
-            logo.src = logoOnSrc;
-            hero.style.backgroundColor = colorOn;
-
+            setLightsState('off');
+            await delay(200);
+            setLightsState('on');
             await delay(80);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(250);
-            lamp.src = lampOnSrc;
-            logo.src = logoOnSrc;
-            hero.style.backgroundColor = colorOn;
+            setLightsState('off');
+            await delay(400);
+            setLightsState('on');
             lamp.alt = "An illustrated lamp that is turned on";
-
         } catch (error) {
             console.error("Flicker animation failed:", error);
-            // Ensure elements are on even if the animation is interrupted
-            lamp.src = lampOnSrc;
-            logo.src = logoOnSrc;
-            hero.style.backgroundColor = colorOn;
+            setLightsState('on');
             lamp.alt = "An illustrated lamp that is turned on";
         }
     };
 
-    // Run the animation
+    // Run the initial animation
     flickerAnimation();
-
+    
+    // Add hover event listeners if the trigger element exists
+    if (hoverTrigger) {
+        hoverTrigger.addEventListener('mouseover', () => setLightsState('off'));
+        hoverTrigger.addEventListener('mouseout', () => setLightsState('on'));
+    }
 });
