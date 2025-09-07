@@ -186,7 +186,7 @@ section {
     padding-bottom: var(--spacing-xl);
 }
 .highlight {
-    color: var(--text-light);
+    color: var(--accent-yellow);
     background-color: var(--primary-blue);
     margin: 0 20px;
     padding: .5rem;
