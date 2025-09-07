@@ -121,35 +121,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // The animation sequence
         try {
-            await delay(800); // Initial delay before starting
+            await delay(1000); // Initial delay before starting
             lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
 
-            await delay(30);
+            await delay(60);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
 
-            await delay(30);
+            await delay(60);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
 
-            await delay(30);
+            await delay(60);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
 
-            await delay(30);
+            await delay(60);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
 
-            await delay(30);
+            await delay(60);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
 
-            await delay(30);
+            await delay(60);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
 
-            await delay(30);
+            await delay(60);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
 
