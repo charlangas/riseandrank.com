@@ -78,4 +78,30 @@ document.addEventListener('DOMContentLoaded', function () {
             moveToSlide(currentIndex);
         });
     }
+    
+    // --- INTERSECTION OBSERVER FOR FADE-IN ANIMATION ---
+    const fadeElements = document.querySelectorAll('.fade-in-element');
+
+    const observerOptions = {
+      root: null, // observes intersections relative to the viewport
+      rootMargin: '0px',
+      threshold: 0.1 // Triggers when 10% of the element is visible
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        // If the element is intersecting the viewport
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // Stop observing the element once it's visible
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Start observing each of the elements
+    fadeElements.forEach(el => {
+      observer.observe(el);
+    });
+
 });
