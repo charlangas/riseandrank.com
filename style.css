@@ -473,6 +473,7 @@ section {
     }
     .problem-section .problem-tagline { display: none; }
     .highlight { font-size: 1.75rem; }
+    .solution-heading-wrapper { height: 66vh; }
 
     .solution-cards-wrapper .grid-4-col > .solution-card:nth-child(4n+1) { border-left: 1px solid var(--text-light); padding-left: var(--spacing-lg); }
     .solution-cards-wrapper .grid-4-col > .solution-card:nth-child(2n+1) { border-left: none; padding-left: 0; }
