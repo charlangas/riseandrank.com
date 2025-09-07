@@ -137,36 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
             logo.src = logoOffSrc;
             hero.style.backgroundColor = colorOff;
 
-            await delay(200);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(100);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(200);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(100);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(200);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
-            await delay(100);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-            hero.style.backgroundColor = colorOff;
-
             await delay(150);
             lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
