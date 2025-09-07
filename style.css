@@ -178,7 +178,7 @@ section {
 /* SOLUTION SECTION */
 .solution-section { padding: 0; }
 .solution-heading-wrapper {
-    background-image: url('img/solution.jpg');
+    background-image: url('img/funnel.jpg');
     background-size: cover;
     background-position: center;
     height: calc(100vh - 40px);

@@ -105,6 +105,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // --- HERO FLICKER ANIMATION ---
+
+    /**
+     * Preloads an array of image URLs.
+     * @param {string[]} urls - The image URLs to preload.
+     * @returns {Promise<void>} A promise that resolves when all images are loaded.
+     */
+    const preloadImages = (urls) => {
+        const promises = urls.map(url => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = url;
+                img.onload = resolve;
+                img.onerror = reject;
+            });
+        });
+        return Promise.all(promises);
+    };
+
     const flickerAnimation = async () => {
         // A helper function to pause execution for a given time in milliseconds
         const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -112,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const lamp = document.getElementById('hero-lamp');
         const logo = document.getElementById('hero-logo');
         const hero = document.getElementById('hero-section');
-        if (!lamp || !logo || !hero) return; // Exit if elements aren't on the page
+        if (!lamp || !logo || !hero) return;
 
         // Define image sources and colors
         const lampOnSrc = 'img/lamp.svg';
@@ -121,13 +139,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const logoOffSrc = 'img/logo-moon.svg';
         const colorOn = '#010AD1';
         const colorOff = '#00008B';
+        
+        // List of images needed for the animation
+        const imagesToLoad = [lampOnSrc, logoOnSrc];
 
-        // Set initial "off" state for the background
-        hero.style.backgroundColor = colorOff;
-
-        // The animation sequence
         try {
-            await delay(1200); // Initial delay before starting
+            // ** WAIT FOR IMAGES TO DOWNLOAD BEFORE STARTING **
+            await preloadImages(imagesToLoad);
+
+            // Set initial "off" state for the background
+            hero.style.backgroundColor = colorOff;
+
+            // The animation sequence
+            await delay(500);
             lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
             hero.style.backgroundColor = colorOn;
@@ -148,10 +172,10 @@ document.addEventListener('DOMContentLoaded', function () {
             hero.style.backgroundColor = colorOff;
 
             await delay(250);
-            lamp.src = lampOnSrc; // Stays on permanently
+            lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
             hero.style.backgroundColor = colorOn;
-            lamp.alt = "An illustrated lamp that is turned on"; // Update alt text for accessibility
+            lamp.alt = "An illustrated lamp that is turned on";
 
         } catch (error) {
             console.error("Flicker animation failed:", error);
