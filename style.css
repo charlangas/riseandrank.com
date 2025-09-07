@@ -188,7 +188,7 @@ section {
 .highlight {
     color: var(--text-light);
     background-color: var(--primary-blue);
-    margin-left: 20px;
+    margin: 0 20px;
     padding: .5rem;
 }
 .solution-heading-wrapper h2 {
@@ -443,8 +443,10 @@ section {
 
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 992px) {
-    h1 { font-size: 2.75rem; }
-    h2 { font-size: 2.25rem; }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.25rem; }
+    p {font-size: 0.9rem; }
     .grid-4-col, .grid-2-col { grid-template-columns: repeat(2, 1fr); }
     .hero-text .subheader { max-width: 100%; }
     .hero-image { width: 66vw; }
@@ -459,6 +461,7 @@ section {
         gap: var(--spacing-lg) var(--spacing-md);
     }
     .problem-section .problem-tagline { display: none; }
+    .highlight { font-size: 1.75rem; }
 
     .solution-cards-wrapper .grid-4-col > .solution-card:nth-child(4n+1) { border-left: 1px solid var(--text-light); padding-left: var(--spacing-lg); }
     .solution-cards-wrapper .grid-4-col > .solution-card:nth-child(2n+1) { border-left: none; padding-left: 0; }
@@ -466,6 +469,7 @@ section {
     .process-row { grid-template-columns: 1fr; gap: var(--spacing-md); border-top: none; margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid var(--border-color); }
     .process-header { margin-bottom: 0; }
     .process-step, .process-description { grid-column: 1 / -1; }
+    .process-step h3 { font-size: 4.5rem; }
     
     .about-section h2 { grid-column: 1 / -1; }
     .about-section .grid-4-col > h2 {
@@ -493,6 +497,8 @@ section {
     h1 { font-size: 2.25rem; }
     h2 { font-size: 2rem; }
 
+    #nav-btn { display: none; }
+
     .grid-4-col, .grid-2-col { grid-template-columns: 1fr; }
     .hero { min-height: calc(100vh - 20px); }
     .hero-content { grid-template-columns: 1fr; text-align: center; }
@@ -511,6 +517,7 @@ section {
     .solution-cards-wrapper .grid-4-col > .solution-card { border-left: none; padding-left: 0; }
     
     .process-row { margin-top: var(--spacing-md); padding-top: var(--spacing-md); }
+    .process-header { display: block; }
     
     .carousel-wrapper { margin-left: var(--spacing-md); }
     .project-card { flex-basis: 80%; min-width: 300px; }
@@ -520,4 +527,7 @@ section {
 
     .footer .grid-4-col { grid-template-columns: 1fr; gap: var(--spacing-lg); }
     .results-header { flex-direction: column; align-items: flex-start; gap: var(--spacing-md); }
+    .footer .grid-4-col > div {
+    grid-column: auto;
+}
 }
