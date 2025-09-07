@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const logoOnSrc = 'img/logo-white.svg';
         const logoOffSrc = 'img/logo-moon.svg';
         const colorOn = '#010AD1';
-        const colorOff = '#00008B';
+        const colorOff = '#000045';
         
         // List of images needed for the animation
         const imagesToLoad = [lampOnSrc, logoOnSrc];
