@@ -111,67 +111,76 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const lamp = document.getElementById('hero-lamp');
         const logo = document.getElementById('hero-logo');
-        if (!lamp || !logo) return; // Exit if elements aren't on the page
+        const hero = document.getElementById('hero-section');
+        if (!lamp || !logo || !hero) return; // Exit if elements aren't on the page
 
-        // Define image sources
+        // Define image sources and colors
         const lampOnSrc = 'img/lamp.svg';
         const lampOffSrc = 'img/lamp-off.svg';
         const logoOnSrc = 'img/logo-white.svg';
         const logoOffSrc = 'img/logo-moon.svg';
+        const colorOn = '#010AD1';
+        const colorOff = '#00008B';
+
+        // Set initial "off" state for the background
+        hero.style.backgroundColor = colorOff;
 
         // The animation sequence
         try {
-            await delay(1000); // Initial delay before starting
+            await delay(1200); // Initial delay before starting
             lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
-
-            await delay(60);
-            lamp.src = lampOffSrc;
-            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOn;
 
             await delay(100);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(200);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(100);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(200);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(100);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(200);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(100);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
 
             await delay(150);
             lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
+            hero.style.backgroundColor = colorOn;
 
             await delay(80);
             lamp.src = lampOffSrc;
             logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
 
             await delay(250);
             lamp.src = lampOnSrc; // Stays on permanently
             logo.src = logoOnSrc;
+            hero.style.backgroundColor = colorOn;
             lamp.alt = "An illustrated lamp that is turned on"; // Update alt text for accessibility
 
         } catch (error) {
@@ -179,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Ensure elements are on even if the animation is interrupted
             lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
+            hero.style.backgroundColor = colorOn;
             lamp.alt = "An illustrated lamp that is turned on";
         }
     };
