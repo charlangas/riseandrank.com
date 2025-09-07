@@ -104,4 +104,86 @@ document.addEventListener('DOMContentLoaded', function () {
       observer.observe(el);
     });
 
+    // --- HERO FLICKER ANIMATION ---
+    const flickerAnimation = async () => {
+        // A helper function to pause execution for a given time in milliseconds
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
+        const lamp = document.getElementById('hero-lamp');
+        const logo = document.getElementById('hero-logo');
+        if (!lamp || !logo) return; // Exit if elements aren't on the page
+
+        // Define image sources
+        const lampOnSrc = 'img/lamp.svg';
+        const lampOffSrc = 'img/lamp-off.svg';
+        const logoOnSrc = 'img/logo-white.svg';
+        const logoOffSrc = 'img/logo-moon.svg';
+
+        // The animation sequence
+        try {
+            await delay(800); // Initial delay before starting
+            lamp.src = lampOnSrc;
+            logo.src = logoOnSrc;
+
+            await delay(30);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(30);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(30);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(30);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(30);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(30);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(30);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(60);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(100);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(150);
+            lamp.src = lampOnSrc;
+            logo.src = logoOnSrc;
+
+            await delay(80);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+
+            await delay(250);
+            lamp.src = lampOnSrc; // Stays on permanently
+            logo.src = logoOnSrc;
+            lamp.alt = "An illustrated lamp that is turned on"; // Update alt text for accessibility
+
+        } catch (error) {
+            console.error("Flicker animation failed:", error);
+            // Ensure elements are on even if the animation is interrupted
+            lamp.src = lampOnSrc;
+            logo.src = logoOnSrc;
+            lamp.alt = "An illustrated lamp that is turned on";
+        }
+    };
+
+    // Run the animation
+    flickerAnimation();
+
 });
