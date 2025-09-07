@@ -151,10 +151,25 @@ document.addEventListener('DOMContentLoaded', function () {
             hero.style.backgroundColor = colorOff;
 
             // The animation sequence
-            await delay(500);
+            await delay(1200);
             lamp.src = lampOnSrc;
             logo.src = logoOnSrc;
             hero.style.backgroundColor = colorOn;
+
+            await delay(100);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(100);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
+
+            await delay(100);
+            lamp.src = lampOffSrc;
+            logo.src = logoOffSrc;
+            hero.style.backgroundColor = colorOff;
 
             await delay(100);
             lamp.src = lampOffSrc;
