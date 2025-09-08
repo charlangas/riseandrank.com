@@ -178,9 +178,11 @@ section {
 /* SOLUTION SECTION */
 .solution-section { padding: 0; }
 .solution-heading-wrapper {
-    background-image: url('img/funnel.jpg');
-    background-size: cover;
+    background-image: url('img/funnel.svg');
+    background-color: #F1F3F2;
+    background-size: contain;
     background-position: center;
+    background-repeat: no-repeat;
     height: calc(100vh - 40px);
     padding-top: var(--spacing-xl);
     padding-bottom: var(--spacing-xl);
