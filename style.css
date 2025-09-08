@@ -462,6 +462,24 @@ section {
     color: var(--accent-yellow);
 }
 
+/* --- BOOKING PAGE --- */
+.booking-widget-wrapper {
+    flex-grow: 1; /* Makes this div take the remaining vertical space */
+    display: flex;
+    justify-content: center; /* Horizontally centers the child */
+    align-items: center; /* Vertically centers the child */
+    width: 100%;
+}
+
+.meetings-iframe-container {
+    width: 100%;
+    max-width: 1024px; /* Adjust as needed for the widget's optimal view */
+    min-height: 650px; /* Prevents the page from collapsing before the widget loads */
+    border-radius: 8px; /* Optional: rounds the corners */
+    overflow: hidden; /* Ensures the iframe respects the border-radius */
+}
+
+
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 992px) {
     h1 { font-size: 2.5rem; }

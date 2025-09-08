@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Book a Call | Rise and Rank</title>
+    <meta name="description" content="Schedule a call to discuss your marketing attribution and pipeline generation needs with Rise and Rank.">
+    
+    <!-- Links to your existing assets and styles -->
+    <link rel="icon" href="img/favicon.png" sizes="any">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="site-wrapper">
+        <!-- The hero section provides the blue background and full-height layout -->
+        <section id="booking-section" class="hero">
+            <div class="container hero-container">
+                <nav class="hero-nav">
+                    <div class="logo">
+                        <!-- Link the logo back to the homepage -->
+                        <a href="index.html">
+                            <img src="img/logo-white.svg" alt="Rise and Rank Logo" id="hero-logo">
+                        </a>
+                    </div>
+                    <!-- This button now takes the user back to the homepage -->
+                    <a href="index.html" class="btn" id="nav-btn">Back to Home</a>
+                </nav>
+                
+                <!-- This new wrapper will center the HubSpot widget -->
+                <div class="booking-widget-wrapper">
+                    <!-- Start of Meetings Embed Script -->
+                    <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/riseandrank/discovery?embed=true"></div>
+                    <!-- End of Meetings Embed Script -->
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- HubSpot's required script for the widget -->
+    <script type="text/javascript" src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+</body>
+</html>
