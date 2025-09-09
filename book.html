@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Book a Call | Rise and Rank</title>
-    <meta name="description" content="Schedule a call to discuss your marketing attribution and pipeline generation needs with Rise and Rank.">
-    
-    <!-- Links to your existing assets and styles -->
+    <meta name="description" content="Schedule a discovery call to discuss your marketing goals with the Rise and Rank team.">
+
     <link rel="icon" href="img/favicon.png" sizes="any">
     <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -15,38 +13,55 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <main class="site-wrapper">
-        <!-- The hero section provides the blue background and full-height layout -->
-        <section id="booking-section" class="hero">
+        <section class="hero">
             <div class="container hero-container">
                 <nav class="hero-nav">
                     <div class="logo">
-                        <!-- Link the logo back to the homepage -->
-                        <a href="index.html">
-                            <img src="img/logo-white.svg" alt="Rise and Rank Logo" id="hero-logo">
-                        </a>
+                        <a href="index.html"><img src="img/logo-white.svg" alt="Rise and Rank Logo" id="hero-logo"></a>
                     </div>
-                    <!-- This button now takes the user back to the homepage -->
-                    <a href="index.html" class="btn" id="nav-btn">Back to Home</a>
+                    <a href="index.html" class="btn" id="nav-btn">Go back</a>
                 </nav>
-                
-                <!-- This new wrapper will center the HubSpot widget -->
                 <div class="booking-widget-wrapper">
-                    <!-- Start of Meetings Embed Script -->
-                    <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/riseandrank/discovery?embed=true"></div>
-                    <!-- End of Meetings Embed Script -->
-                </div>
-
+                    <h1 class="booking-page-title">Book a call with us below</h1>
+                    
+                    <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/riseandrank/discovery?embed=true">
+                        <div class="loader-wrapper">
+                            <div class="loader-spinner"></div>
+                            <p class="loader-text">You'll be able to choose a time shortly...</p>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+                    </div>
             </div>
         </section>
     </main>
-
-    <!-- HubSpot's required script for the widget -->
-    <script type="text/javascript" src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const meetingsContainer = document.querySelector('.meetings-iframe-container');
+            const loader = document.querySelector('.loader-wrapper');
+    
+            if (meetingsContainer && loader) {
+                // Periodically check if the iframe has been added by the HubSpot script
+                const checkInterval = setInterval(() => {
+                    const iframe = meetingsContainer.querySelector('iframe');
+                    if (iframe) {
+                        // Once the iframe exists, hide the loader and stop checking
+                        loader.classList.add('hidden');
+                        clearInterval(checkInterval);
+                    }
+                }, 100); // Check every 100 milliseconds
+    
+                // As a fallback, hide the loader after 10 seconds in case the widget fails
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    clearInterval(checkInterval); 
+                }, 10000);
+            }
+        });
+    </script>
 </body>
 </html>
