@@ -290,7 +290,7 @@ section {
 .carousel-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .carousel-wrapper {
     overflow: hidden;
-    margin-left: calc((100% - var(--max-width)) / 2 + var(--spacing-lg));
+    padding-left: calc((100% - var(--max-width)) / 2 + var(--spacing-lg));
 }
 .carousel-track {
     display: flex;
