@@ -56,21 +56,37 @@ document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('resize', () => moveToSlide(currentIndex));
     }
     
-    // --- INTERSECTION OBSERVER FOR FADE-IN ANIMATION ---
-    const fadeElements = document.querySelectorAll('.fade-in-element');
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+    // --- MODIFIED: INTERSECTION OBSERVER FOR FADE-IN & H3 ANIMATION ---
+    const animatedElements = document.querySelectorAll('.fade-in-element, .process-title-animate');
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.4 }; // Adjusted threshold
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+            // Handle standard fade-in elements
+            if (entry.target.classList.contains('fade-in-element')) {
+                 entry.target.classList.add('is-visible');
+            }
+          
+            // NEW: Handle and animate the process titles
+            if (entry.target.classList.contains('process-title-animate')) {
+                const text = new SplitType(entry.target, { types: 'chars' });
+                gsap.from(text.chars, {
+                    yPercent: 100,
+                    opacity: 0,
+                    stagger: 0.05, // Time between each character animating in
+                    ease: 'power4.out',
+                    duration: 1.5
+                });
+            }
+
+            observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
-    fadeElements.forEach(el => observer.observe(el));
+    animatedElements.forEach(el => observer.observe(el));
+
 
     // --- HERO FLICKER ANIMATION & HOVER LOGIC ---
-
     const lamp = document.getElementById('hero-lamp');
     const logo = document.getElementById('hero-logo');
     const hero = document.getElementById('hero-section');
@@ -85,10 +101,6 @@ document.addEventListener('DOMContentLoaded', function () {
         colorOff: '#00008B'
     };
 
-    /**
-     * Sets the visual state of hero elements to ON or OFF.
-     * @param {'on' | 'off'} state - The desired state.
-     */
     const setLightsState = (state) => {
         if (!lamp || !logo || !hero) return;
 
@@ -142,9 +154,49 @@ document.addEventListener('DOMContentLoaded', function () {
     // Run the initial animation
     flickerAnimation();
     
-    // Add hover event listeners if the trigger element exists
     if (hoverTrigger) {
         hoverTrigger.addEventListener('mouseover', () => setLightsState('off'));
         hoverTrigger.addEventListener('mouseout', () => setLightsState('on'));
     }
 });
+
+// --- MOBILE CARD FOCUS ON SCROLL ---
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) {
+        const cardsToAnimate = document.querySelectorAll('.problem-card, .solution-card');
+
+        if (cardsToAnimate.length > 0) {
+            const cardObserverOptions = {
+                root: null,
+                rootMargin: '-40% 0px -40% 0px', // Creates a trigger zone in the middle 20% of the screen
+                threshold: 0
+            };
+
+            const cardObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // First, remove the focus class from all cards
+                        cardsToAnimate.forEach(card => {
+                            card.classList.remove('is-focused');
+                        });
+                        // Then, add the focus class to the one that is currently intersecting
+                        entry.target.classList.add('is-focused');
+                    }
+                });
+            }, cardObserverOptions);
+
+            cardsToAnimate.forEach(card => {
+                cardObserver.observe(card);
+            });
+        }
+    }
+
+// --- PARALLAX EFFECT SCRIPT ---
+const parallaxSection = document.querySelector('.solution-heading-wrapper');
+
+if (parallaxSection) {
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.pageYOffset;
+        parallaxSection.style.backgroundPositionY = (scrollPosition - parallaxSection.offsetTop) * 0.3 + 'px';
+    });
+}

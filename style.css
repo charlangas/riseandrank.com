@@ -238,11 +238,16 @@ section {
 }
 .process-row {
     display: grid;
-    grid-template-columns: subgrid; /* Inherit columns from parent */
+    grid-template-columns: subgrid;
     align-items: center;
     padding-top: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
     border-top: 1px solid var(--border-color);
+}
+.process-row:hover {
+    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+    color: var(--text-light);
+    background-color: var(--primary-blue);
 }
 .process-row:first-of-type {
     margin-top: 0;
@@ -261,13 +266,17 @@ section {
 .process-step .step-number {
     font-family: var(--font-mono);
     margin-bottom: 0;
+    margin-left: var(--spacing-sm);
 }
 .process-step h3 {
     color: var(--primary-blue);
     font-size: 7rem;
     font-weight: 200;
 }
-
+.process-row:hover .process-step h3 {
+    transition: color 0.4s ease-in-out;
+    color: var(--text-light);
+}
 .process-step h3, .process-description p { margin-bottom: 0; }
 
 /* RESULTS SECTION */
@@ -577,6 +586,68 @@ section {
     margin-bottom: 0;
 }
 
+/* --- CARD HOVER & FOCUS EFFECTS --- */
+.problem-card, .solution-card {
+    transition: transform 0.3s ease;
+}
+
+/* Apply effects on hover (for desktop) OR when the .is-focused class is present (for mobile) */
+.problem-card:hover, .solution-card:hover,
+.problem-card.is-focused, .solution-card.is-focused {
+    transform: translateY(-8px);
+}
+
+.problem-card:hover h3, .solution-card:hover h3,
+.problem-card.is-focused h3, .solution-card.is-focused h3 {
+    color: var(--primary-blue);
+}
+
+/* --- SVG ANIMATION ON HOVER & FOCUS --- */
+.problem-card svg, .solution-card svg {
+    transition: transform 0.3s ease;
+}
+
+/* Animate the 'X' icon in the problem cards */
+.problem-card:hover svg,
+.problem-card.is-focused svg {
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Animate the '+' icon in the solution cards */
+.solution-card:hover svg,
+.solution-card.is-focused svg {
+    transform: rotate(180deg) scale(1.1);
+}
+
+/* --- COMPARISON TABLE ICON ANIMATION (FINAL) --- */
+
+/* 1. Base animation for ALL icons */
+.comparison-item svg {
+    transform: scale(0);
+    /* Using nth-of-type is more robust here than nth-child */
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 2. When the parent table is visible, scale them in */
+.comparison-table.is-visible .comparison-item svg {
+    transform: scale(1);
+}
+
+/* 3. Staggered delays for the FIRST column (.our-agency) */
+.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(2) svg { transition-delay: 0.3s; }
+.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(3) svg { transition-delay: 0.3s; }
+.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(4) svg { transition-delay: 0.4s; }
+.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(5) svg { transition-delay: 0.5s; }
+.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(6) svg { transition-delay: 0.6s; }
+
+/* 4. Staggered delays for the SECOND column (Other Agencies) */
+.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(2) svg { transition-delay: 0.3s; }
+.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(3) svg { transition-delay: 0.4s; }
+.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(4) svg { transition-delay: 0.5s; }
+.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(5) svg { transition-delay: 0.6s; }
+.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(6) svg { transition-delay: 0.7s; }
+
+
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 992px) {
     h1 { font-size: 2.5rem; }
@@ -603,7 +674,7 @@ section {
     .solution-cards-wrapper .grid-4-col > .solution-card:nth-child(4n+1) { border-left: 1px solid var(--text-light); padding-left: var(--spacing-lg); }
     .solution-cards-wrapper .grid-4-col > .solution-card:nth-child(2n+1) { border-left: none; padding-left: 0; }
     
-    .process-row { grid-template-columns: 1fr; gap: var(--spacing-md); border-top: none; margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid var(--border-color); }
+    .process-row { grid-template-columns: 1fr; gap: var(--spacing-md); border-top: none; padding-bottom: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid var(--border-color); padding-left:var(--spacing-sm); padding-right:var(--spacing-sm);}
     .process-header { margin-bottom: 0; }
     .process-step, .process-description { grid-column: 1 / -1; }
     .process-step h3 { font-size: 4.5rem; }
