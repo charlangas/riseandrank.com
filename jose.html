@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Call | Rise and Rank</title>
+    <meta name="description" content="Schedule a discovery call to discuss your marketing goals with the Rise and Rank team.">
+
+    <link rel="icon" href="img/favicon.png" sizes="any">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="site-wrapper">
+        <section class="hero">
+            <div class="container hero-container">
+                <nav class="hero-nav">
+                    <div class="logo">
+                        <a href="index.html"><img src="img/logo-white.svg" alt="Rise and Rank Logo" id="hero-logo"></a>
+                    </div>
+                    <a href="index.html" class="btn" id="nav-btn">Go back</a>
+                </nav>
+                <div class="booking-widget-wrapper">
+                    <h1 class="booking-page-title">Book a call with us below</h1>
+
+                    <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/riseandrank/jose?embed=true">
+                        <div class="loader-wrapper">
+                            <div class="loader-spinner"></div>
+                            <p class="loader-text">You'll be able to choose a time shortly...</p>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+                    </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const meetingsContainer = document.querySelector('.meetings-iframe-container');
+            const loader = document.querySelector('.loader-wrapper');
+    
+            if (meetingsContainer && loader) {
+                // Periodically check if the iframe has been added by the HubSpot script
+                const checkInterval = setInterval(() => {
+                    const iframe = meetingsContainer.querySelector('iframe');
+                    if (iframe) {
+                        // Once the iframe exists, hide the loader and stop checking
+                        loader.classList.add('hidden');
+                        clearInterval(checkInterval);
+                    }
+                }, 100); // Check every 100 milliseconds
+    
+                // As a fallback, hide the loader after 10 seconds in case the widget fails
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    clearInterval(checkInterval); 
+                }, 10000);
+            }
+        });
+    </script>
+</body>
+</html>
