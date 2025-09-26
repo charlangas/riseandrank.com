@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Steel Drum Customizer</title>
+    <style>
+        :root {
+            --ui-background: #1a1a1a;
+            --text-color: #f0f0f0;
+            --accent-color: #007bff;
+            --border-color: #333;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #333;
+            color: var(--text-color);
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        #main-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .ui-panel {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: var(--ui-background);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+            width: 90%;
+            max-width: 280px;
+        }
+        .control-group {
+            margin-bottom: 1rem;
+        }
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        label, .control-group h3 {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        input[type="file"], input[type="color"], input[type="range"], button {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 0.25rem;
+        }
+        input[type="color"] {
+            padding: 0;
+            height: 30px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .color-swatches {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+        .swatch:hover {
+            transform: scale(1.1);
+        }
+        #error-message {
+            color: #ff4d4d;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            min-height: 1.2em;
+        }
+        .button, button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        .button:hover, button:hover {
+            background-color: #0056b3;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .file-label {
+            display: inline-block;
+            cursor: pointer;
+            padding: 0.75rem;
+        }
+    </style>
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+                "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/controls/OrbitControls.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="main-container">
+        <div class="ui-panel">
+            <div class="control-group">
+                <h3>Elije el color de tu tambor</h3>
+                <input type="color" id="color-picker" value="#ffffff">
+                <div class="color-swatches">
+                    <div class="swatch" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
+                    <div class="swatch" style="background-color: #222222;" data-color="#222222"></div>
+                    <div class="swatch" style="background-color: #160FD5;" data-color="#160FD5"></div>
+                    <div class="swatch" style="background-color: #006400;" data-color="#006400"></div>
+                    <div class="swatch" style="background-color: #A20202;" data-color="#A20202"></div>
+                    <div class="swatch" style="background-color: #FEBC15;" data-color="#FEBC15"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Sube tu Imagen</h3>
+                <label for="logo-upload" class="button file-label">Subir Imagen</label>
+                <input type="file" id="logo-upload" accept=".png, .jpg, .jpeg, .svg">
+                <div id="error-message"></div>
+            </div>
+
+            <div class="control-group">
+                <label for="scale-slider">Tamaño del Logo</label>
+                <input type="range" id="scale-slider" min="0.1" max="1.0" step="0.05" value="0.5">
+            </div>
+            
+            <div class="control-group">
+                 <button id="download-btn">Descarga tu Captura</button>
+            </div>
+        </div>
+        <!-- The Three.js canvas will be inserted here by the script -->
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+        let scene, camera, renderer, controls, drumGroup, drumBody, logoMesh;
+        let textureAspectRatio = 1;
+        const raycaster = new THREE.Raycaster();
+        const pointer = new THREE.Vector2();
+        let isDraggingLogo = false;
+        let isOrbiting = false; 
+
+        // Variables for UV-based dragging
+        let initialUV = new THREE.Vector2();
+        let dragStartOffset = new THREE.Vector2();
+        let logoUVOffset = new THREE.Vector2(0, 0); // Stores the current drag offset
+
+        const ui = {
+            container: document.getElementById('main-container'),
+            colorPicker: document.getElementById('color-picker'),
+            swatches: document.querySelectorAll('.swatch'),
+            logoUpload: document.getElementById('logo-upload'),
+            scaleSlider: document.getElementById('scale-slider'),
+            downloadBtn: document.getElementById('download-btn'),
+            errorMessage: document.getElementById('error-message'),
+        };
+        
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xdedede);
+
+            // User-defined camera settings
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 2, 20); // Zoomed out camera
+            camera.lookAt(0, 1, 0);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            ui.container.appendChild(renderer.domElement);
+
+            addLights();
+            createDrum();
+            
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.target.set(0, 1, 0);
+            controls.enableDamping = true;
+            controls.minDistance = 4;
+            controls.maxDistance = 20;
+
+            addEventListeners();
+            animate();
+        }
+
+        function addLights() {
+            const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+            directionalLight.position.set(5, 10, 7.5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 1024;
+            directionalLight.shadow.mapSize.height = 1024;
+            scene.add(directionalLight);
+        }
+        
+        function createDrum() {
+            drumGroup = new THREE.Group();
+            const drumMaterial = new THREE.MeshStandardMaterial({
+                color: 0xFFFFFF, metalness: 0.3, roughness: 0.4 
+            });
+
+            const drumHeight = 5.5;
+            const drumRadius = 2;
+
+            // Main drum body for the color
+            const bodyGeometry = new THREE.CylinderGeometry(drumRadius, drumRadius, drumHeight, 64);
+            drumBody = new THREE.Mesh(bodyGeometry, drumMaterial.clone());
+            drumBody.castShadow = true;
+            drumBody.receiveShadow = true;
+            drumGroup.add(drumBody);
+
+            // A second, slightly larger mesh just for the logo "sticker"
+            const logoGeometry = new THREE.CylinderGeometry(drumRadius + 0.01, drumRadius + 0.01, drumHeight, 64);
+            
+            // Create three materials: one for the sides (logo) and two for the caps (transparent)
+            const sideMaterial = new THREE.MeshStandardMaterial({
+                transparent: true,
+                opacity: 0,
+                depthWrite: false, // Helps prevent visual artifacts
+            });
+            const capMaterial = new THREE.MeshStandardMaterial({
+                transparent: true,
+                opacity: 0
+            });
+
+            // The CylinderGeometry uses materials in the order: [side, top, bottom]
+            logoMesh = new THREE.Mesh(logoGeometry, [sideMaterial, capMaterial, capMaterial]);
+            drumGroup.add(logoMesh);
+
+            // Lids, Rims, and Hoops
+            const lidGeometry = new THREE.CircleGeometry(drumRadius, 64);
+            const topLid = new THREE.Mesh(lidGeometry, drumMaterial.clone());
+            topLid.rotation.x = -Math.PI / 2;
+            topLid.position.y = drumHeight / 2;
+            drumGroup.add(topLid);
+
+            const bottomLid = new THREE.Mesh(lidGeometry, drumMaterial.clone());
+            bottomLid.rotation.x = Math.PI / 2;
+            bottomLid.position.y = -drumHeight / 2;
+            drumGroup.add(bottomLid);
+
+            const rimGeometry = new THREE.TorusGeometry(drumRadius, 0.1, 16, 100);
+            const topRim = new THREE.Mesh(rimGeometry, drumMaterial.clone());
+            topRim.rotation.x = Math.PI / 2;
+            topRim.position.y = drumHeight / 2;
+            drumGroup.add(topRim);
+            
+            const bottomRim = new THREE.Mesh(rimGeometry, drumMaterial.clone());
+            bottomRim.rotation.x = Math.PI / 2;
+            bottomRim.position.y = -drumHeight / 2;
+            drumGroup.add(bottomRim);
+
+            const hoopGeometry = new THREE.TorusGeometry(drumRadius + 0.01, 0.05, 16, 100);
+            [1.5, -1.5].forEach(y => {
+                const hoop = new THREE.Mesh(hoopGeometry, drumMaterial.clone());
+                hoop.rotation.x = Math.PI / 2;
+                hoop.position.y = y;
+                drumGroup.add(hoop);
+            });
+            
+            drumGroup.position.y = drumHeight / 2 + 0.1;
+            scene.add(drumGroup);
+        }
+
+        function addEventListeners() {
+            window.addEventListener('resize', onWindowResize);
+            
+            ui.colorPicker.addEventListener('input', (e) => updateDrumColor(e.target.value));
+            ui.swatches.forEach(swatch => {
+                swatch.addEventListener('click', () => {
+                    const color = swatch.dataset.color;
+                    ui.colorPicker.value = color;
+                    updateDrumColor(color);
+                });
+            });
+
+            ui.logoUpload.addEventListener('change', handleFileUpload);
+            ui.scaleSlider.addEventListener('input', updateLogoTransform);
+            ui.downloadBtn.addEventListener('click', downloadSnapshot);
+            
+            controls.addEventListener('start', () => { isOrbiting = true; });
+            controls.addEventListener('end', () => { isOrbiting = false; });
+
+            renderer.domElement.addEventListener('pointerdown', onPointerDown);
+            renderer.domElement.addEventListener('pointermove', onPointerMove);
+            renderer.domElement.addEventListener('pointerup', onPointerUp);
+            renderer.domElement.addEventListener('pointercancel', onPointerUp);
+        }
+
+        function updateDrumColor(hexColor) {
+            const color = new THREE.Color(hexColor);
+            drumGroup.children.forEach(child => {
+                if (child.isMesh && child !== logoMesh) {
+                     if (Array.isArray(child.material)) {
+                        child.material.forEach(m => m.color.set(color));
+                    } else {
+                        child.material.color.set(color);
+                    }
+                }
+            });
+        }
+        
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            ui.errorMessage.textContent = '';
+            if (!file) return;
+
+            const allowedTypes = ['image/png', 'image/jpeg', 'image/svg+xml'];
+            if (!allowedTypes.includes(file.type)) {
+                ui.errorMessage.textContent = 'Invalid file type. Use PNG, JPG, or SVG.';
+                return;
+            }
+            if (file.size > 500 * 1024) { // 500 KB
+                ui.errorMessage.textContent = 'File is too large (max 500 KB).';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const padding = 32;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.naturalWidth + padding * 2;
+                    canvas.height = img.naturalHeight + padding * 2;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, padding, padding);
+                    
+                    textureAspectRatio = canvas.width / canvas.height;
+
+                    const texture = new THREE.CanvasTexture(canvas);
+                    texture.wrapS = THREE.RepeatWrapping; // Allow horizontal wrapping for seamless dragging
+                    texture.wrapT = THREE.ClampToEdgeWrapping; // Prevent vertical tiling
+
+                    const logoMaterial = logoMesh.material[0];
+                    if (logoMaterial.map) {
+                        logoMaterial.map.dispose();
+                    }
+                    logoMaterial.map = texture;
+                    logoMaterial.map.matrixAutoUpdate = false; // We will manually update the matrix
+
+                    logoMaterial.opacity = 1;
+                    logoMaterial.alphaTest = 0.1;
+                    logoMaterial.needsUpdate = true;
+                    
+                    logoUVOffset.set(0, 0); // Reset drag offset
+                    updateLogoTransform(); // Set initial scale and position
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateLogoTransform() {
+            const logoMaterial = logoMesh.material[0];
+            if (!logoMaterial.map) return;
+
+            const sliderValue = parseFloat(ui.scaleSlider.value);
+            // Invert the slider value so larger slider value = larger logo.
+            // A smaller UV scale value makes the logo appear larger.
+            // We map slider range [0.1, 1.0] to UV scale range [1.0, 0.1]
+            const scale = (1.0 + 0.1) - sliderValue;
+
+            const drumHeight = 4.5;
+            const drumRadius = 2;
+
+            // Calculate the scale of the texture in UV space
+            const sy = scale; // Vertical scale
+            // Horizontal scale is adjusted for the drum's circumference and texture's aspect ratio
+            const sx = (scale * drumHeight * textureAspectRatio) / (2 * Math.PI * drumRadius);
+
+            // Calculate the translation to center the scaled texture, then add the user's drag offset
+            const tx = logoUVOffset.x + (1 - sx) / 2;
+            const ty = logoUVOffset.y + (1 - sy) / 2;
+            
+            // Apply the transformation to the texture matrix
+            logoMaterial.map.matrix.setUvTransform(tx, ty, sx, sy, 0, 0, 0);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onPointerDown(event) {
+            updatePointer(event);
+            raycaster.setFromCamera(pointer, camera);
+            const intersects = raycaster.intersectObject(drumBody);
+
+            if (intersects.length > 0 && logoMesh.material[0].map && Math.abs(intersects[0].face.normal.y) < 0.1) {
+                isDraggingLogo = true;
+                controls.enabled = false;
+                
+                initialUV.copy(intersects[0].uv);
+                dragStartOffset.copy(logoUVOffset);
+            }
+        }
+        
+        function onPointerMove(event) {
+            if (isDraggingLogo) {
+                updatePointer(event);
+                raycaster.setFromCamera(pointer, camera);
+                const intersects = raycaster.intersectObject(drumBody);
+                if (intersects.length > 0) {
+                    const currentUV = intersects[0].uv;
+                    const uvDelta = new THREE.Vector2().subVectors(currentUV, initialUV);
+                    
+                    logoUVOffset.x = dragStartOffset.x - uvDelta.x;
+                    logoUVOffset.y = dragStartOffset.y + uvDelta.y;
+                    
+                    updateLogoTransform();
+                }
+            }
+        }
+        
+        function onPointerUp() {
+            isDraggingLogo = false;
+            controls.enabled = true;
+        }
+        
+        function updatePointer(event){
+            const rect = renderer.domElement.getBoundingClientRect();
+            pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        }
+        
+        function downloadSnapshot() {
+            const dataURL = renderer.domElement.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'drum-snapshot.png';
+            link.click();
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!isOrbiting && !isDraggingLogo) {
+                drumGroup.rotation.y += 0.002;
+            }
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>
+
