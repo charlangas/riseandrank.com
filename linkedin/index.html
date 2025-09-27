@@ -6,9 +6,10 @@
     <title>LinkedIn Content Generator | Rise and Rank</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="app.css">
+    
     <script src="https://cdn.auth0.com/auth0-spa-js/2.1/auth0-spa-js.production.js" defer></script>
     <script src="app.js" defer></script>
-    </head>
+</head>
 <body>
     <div id="login-view">
         <main class="tool-container">
@@ -21,62 +22,62 @@
     </div>
 
     <div id="tool-wrapper" class="hidden">
-         <main class="tool-container">
+        <main class="tool-container">
             <header class="tool-header">
                 <h1>LinkedIn Content Generator</h1>
                 <p>Logged in as <span id="user-email"></span> | <button id="logout-btn" class="link-button">Log Out</button></p>
             </header>
+            
+            <section id="step-1-section" class="tool-section">
+                <h2>Step 1: Generate Post Ideas</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="primary-pain-point">Primary Pain Point</label>
+                        <select id="primary-pain-point" class="tool-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-department">Target Department</label>
+                        <select id="target-department" class="tool-select">
+                            <option value="random">-- Random --</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-persona">Target Persona</label>
+                        <input type="text" id="target-persona" class="tool-input" value="VP of Sales">
+                    </div>
+                    <div class="form-group">
+                        <label for="content-goal">Content Goal</label>
+                        <select id="content-goal" class="tool-select"></select>
+                    </div>
+                </div>
+                <button id="generate-ideas-btn" class="tool-button">Generate Ideas</button>
+            </section>
 
-        <section id="step-1-section" class="tool-section">
-            <h2>Step 1: Generate Post Ideas</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="primary-pain-point">Primary Pain Point</label>
-                    <select id="primary-pain-point" class="tool-select"></select>
+            <section id="step-2-section" class="tool-section hidden">
+                <h2>Step 2: Select Your Favorite Idea</h2>
+                <div id="ideas-output" class="ideas-container"></div>
+                <div id="prompt-2-inputs" class="hidden">
+                    <h2>Step 3: Add Details & Generate Posts</h2>
+                    <div class="form-group">
+                        <label for="personal-anecdote">Personal Anecdotes or Data (Optional)</label>
+                        <textarea id="personal-anecdote" class="tool-textarea" placeholder="e.g., Working with a global SaaS client..."></textarea>
+                    </div>
+                    <button id="generate-posts-btn" class="tool-button">Generate LinkedIn Posts</button>
                 </div>
-                <div class="form-group">
-                    <label for="target-department">Target Department</label>
-                    <select id="target-department" class="tool-select">
-                        <option value="random">-- Random --</option>
-                        <option value="Sales">Sales</option>
-                        <option value="Marketing">Marketing</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="target-persona">Target Persona</label>
-                    <input type="text" id="target-persona" class="tool-input" value="VP of Sales">
-                </div>
-                <div class="form-group">
-                    <label for="content-goal">Content Goal</label>
-                    <select id="content-goal" class="tool-select"></select>
-                </div>
+            </section>
+
+            <section id="final-output-section" class="tool-section hidden">
+                <h2>Your LinkedIn Drafts</h2>
+                <div id="posts-output" class="posts-container"></div>
+            </section>
+
+            <div id="loading-indicator" class="loading-overlay hidden">
+                <div class="spinner"></div>
+                <p>Generating... please wait.</p>
             </div>
-            <button id="generate-ideas-btn" class="tool-button">Generate Ideas</button>
-        </section>
-
-        <section id="step-2-section" class="tool-section hidden">
-            <h2>Step 2: Select Your Favorite Idea</h2>
-            <div id="ideas-output" class="ideas-container"></div>
-            <div id="prompt-2-inputs" class="hidden">
-                <h2>Step 3: Add Details & Generate Posts</h2>
-                <div class="form-group">
-                    <label for="personal-anecdote">Personal Anecdotes or Data (Optional)</label>
-                    <textarea id="personal-anecdote" class="tool-textarea" placeholder="e.g., Working with a global SaaS client..."></textarea>
-                </div>
-                <button id="generate-posts-btn" class="tool-button">Generate LinkedIn Posts</button>
-            </div>
-        </section>
-
-        <section id="final-output-section" class="tool-section hidden">
-            <h2>Your LinkedIn Drafts</h2>
-            <div id="posts-output" class="posts-container"></div>
-        </section>
-
-        <div id="loading-indicator" class="loading-overlay hidden">
-            <div class="spinner"></div>
-            <p>Generating... please wait.</p>
-        </div>
-    </main>
-    <script src="app.js"></script>
-</body>
+        </main>
+    </div>
+    </body>
 </html>
