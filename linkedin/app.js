@@ -1,90 +1,87 @@
-let auth0Client = null;
+const main = async () => {
+    try {
+        let auth0Client = null;
 
-window.addEventListener('load', async () => {
-    // --- AUTH0 CONFIGURATION ---
-    // IMPORTANT: Replace these with your actual Auth0 credentials
-    auth0Client = await auth0.createAuth0Client({
-        domain: 'dev-658pplz7hlkua00p.us.auth0.com', // Replace with your Auth0 Domain
-        clientId: 'SSfHzCrn2NXoAqaYaRjbwrX7AYhISamg', // Replace with your Auth0 Client ID
-        authorizationParams: {
-            redirect_uri: window.location.href,
-        },
-    });
-
-    // --- AUTH0 LOGIN FLOW ---
-    const loginView = document.getElementById('login-view');
-    const toolWrapper = document.getElementById('tool-wrapper');
-    const userEmailSpan = document.getElementById('user-email');
-
-    const isAuthenticated = await auth0Client.isAuthenticated();
-
-    if (isAuthenticated) {
-        loginView.classList.add('hidden');
-        toolWrapper.classList.remove('hidden');
-        const user = await auth0Client.getUser();
-        if (user) userEmailSpan.textContent = user.email;
-    } else if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
-        await auth0Client.handleRedirectCallback();
-        window.history.replaceState({}, document.title, window.location.pathname);
-        loginView.classList.add('hidden');
-        toolWrapper.classList.remove('hidden');
-        const user = await auth0Client.getUser();
-        if (user) userEmailSpan.textContent = user.email;
-    } else {
-        loginView.classList.remove('hidden');
-        toolWrapper.classList.add('hidden');
-    }
-
-    // --- AUTH0 EVENT LISTENERS ---
-    document.getElementById('login-btn').addEventListener('click', () => {
-        auth0Client.loginWithRedirect();
-    });
-
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        auth0Client.logout({
-            logoutParams: {
-                returnTo: window.location.href,
+        // --- AUTH0 CONFIGURATION ---
+        auth0Client = await auth0.createAuth0Client({
+            domain: 'YOUR_AUTH0_DOMAIN', // Replace with your Auth0 Domain
+            clientId: 'YOUR_AUTH0_CLIENT_ID', // Replace with your Auth0 Client ID
+            authorizationParams: {
+                redirect_uri: window.location.href,
             },
         });
-    });
-    
-    // --- TOOL JAVASCRIPT ---
-    // --- DOM ELEMENTS ---
-    const painPointSelect = document.getElementById('primary-pain-point');
-    const departmentSelect = document.getElementById('target-department');
-    const personaInput = document.getElementById('target-persona');
-    const goalSelect = document.getElementById('content-goal');
-    const generateIdeasBtn = document.getElementById('generate-ideas-btn');
-    const ideasOutput = document.getElementById('ideas-output');
-    const step2Section = document.getElementById('step-2-section');
-    const prompt2Inputs = document.getElementById('prompt-2-inputs');
-    const anecdoteTextarea = document.getElementById('personal-anecdote');
-    const generatePostsBtn = document.getElementById('generate-posts-btn');
-    const finalOutputSection = document.getElementById('final-output-section');
-    const postsOutput = document.getElementById('posts-output');
-    const loadingIndicator = document.getElementById('loading-indicator');
 
-    // --- DATA & CONSTANTS ---
-    const API_URL = '/.netlify/functions/generate-content';
-    const PAIN_POINTS = [
-        "Poor lead quality / too many low-value leads",
-        "Low conversion from lead to SQL",
-        "Slow or inconsistent follow-up",
-        "Lack of contextual lead intelligence for reps",
-        "No reliable attribution of pipeline to marketing",
-        "Content pipeline is slow and unscalable for personalization",
-        "Inefficient handoffs and accountability (no SLA)"
-    ];
-    const CONTENT_GOALS = [
-        "Generate discovery calls for our diagnostic audit",
-        "Build credibility and authority in our niche",
-        "Get prospects to download a strategic asset (e.g., a template or guide)",
-        "Increase post reach and audience engagement",
-        "Start conversations with ideal customer profiles (ICPs)"
-    ];
+        // --- AUTH0 LOGIN FLOW ---
+        const loginView = document.getElementById('login-view');
+        const toolWrapper = document.getElementById('tool-wrapper');
+        const userEmailSpan = document.getElementById('user-email');
 
-    // --- PROMPT TEMPLATES ---
-    const PROMPT_1_TEMPLATE = (painPoint, department, persona, goal) => `
+        const isAuthenticated = await auth0Client.isAuthenticated();
+
+        if (isAuthenticated) {
+            loginView.classList.add('hidden');
+            toolWrapper.classList.remove('hidden');
+            const user = await auth0Client.getUser();
+            if (user) userEmailSpan.textContent = user.email;
+        } else if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
+            await auth0Client.handleRedirectCallback();
+            window.history.replaceState({}, document.title, window.location.pathname);
+            loginView.classList.add('hidden');
+            toolWrapper.classList.remove('hidden');
+            const user = await auth0Client.getUser();
+            if (user) userEmailSpan.textContent = user.email;
+        } else {
+            loginView.classList.remove('hidden');
+            toolWrapper.classList.add('hidden');
+        }
+
+        // --- AUTH0 EVENT LISTENERS ---
+        document.getElementById('login-btn').addEventListener('click', () => {
+            auth0Client.loginWithRedirect();
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            auth0Client.logout({
+                logoutParams: {
+                    returnTo: window.location.href,
+                },
+            });
+        });
+        
+        // --- TOOL JAVASCRIPT ---
+        const painPointSelect = document.getElementById('primary-pain-point');
+        const departmentSelect = document.getElementById('target-department');
+        const personaInput = document.getElementById('target-persona');
+        const goalSelect = document.getElementById('content-goal');
+        const generateIdeasBtn = document.getElementById('generate-ideas-btn');
+        const ideasOutput = document.getElementById('ideas-output');
+        const step2Section = document.getElementById('step-2-section');
+        const prompt2Inputs = document.getElementById('prompt-2-inputs');
+        const anecdoteTextarea = document.getElementById('personal-anecdote');
+        const generatePostsBtn = document.getElementById('generate-posts-btn');
+        const finalOutputSection = document.getElementById('final-output-section');
+        const postsOutput = document.getElementById('posts-output');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        const API_URL = '/.netlify/functions/generate-content';
+        const PAIN_POINTS = [
+            "Poor lead quality / too many low-value leads",
+            "Low conversion from lead to SQL",
+            "Slow or inconsistent follow-up",
+            "Lack of contextual lead intelligence for reps",
+            "No reliable attribution of pipeline to marketing",
+            "Content pipeline is slow and unscalable for personalization",
+            "Inefficient handoffs and accountability (no SLA)"
+        ];
+        const CONTENT_GOALS = [
+            "Generate discovery calls for our diagnostic audit",
+            "Build credibility and authority in our niche",
+            "Get prospects to download a strategic asset (e.g., a template or guide)",
+            "Increase post reach and audience engagement",
+            "Start conversations with ideal customer profiles (ICPs)"
+        ];
+
+        const PROMPT_1_TEMPLATE = (painPoint, department, persona, goal) => `
         SYSTEM ROLE 
         You are a LinkedIn Content Strategist and Viral Growth Expert, specializing in B2B marketing and sales alignment for large enterprise companies ("tier-two titans").
         Your primary function is to generate a diverse list of specific, actionable post ideas engineered for high engagement with VPs of Sales, CMOs, and Heads of Demand Gen. Your entire methodology is based on the core principles and the expanded catalog of post types detailed below.
@@ -276,175 +273,181 @@ window.addEventListener('load', async () => {
 
     // --- FUNCTIONS ---
     const showLoading = (show) => {
-        loadingIndicator.classList.toggle('hidden', !show);
-    };
+            loadingIndicator.classList.toggle('hidden', !show);
+        };
 
-    const populatePainPoints = () => {
-        painPointSelect.innerHTML = '<option value="random">-- Random --</option>';
-        PAIN_POINTS.forEach(point => {
-            const option = document.createElement('option');
-            option.value = point;
-            option.textContent = point;
-            painPointSelect.appendChild(option);
-        });
-    };
-
-    const populateContentGoals = () => {
-        goalSelect.innerHTML = '';
-        CONTENT_GOALS.forEach(goal => {
-            const option = document.createElement('option');
-            option.value = goal;
-            option.textContent = goal;
-            goalSelect.appendChild(option);
-        });
-    };
-
-    const getRandomOption = (selectElement) => {
-        const options = Array.from(selectElement.options).filter(opt => opt.value && opt.value !== 'random');
-        return options[Math.floor(Math.random() * options.length)].value;
-    };
-
-    const callClaudeAPI = async (prompt) => {
-        if (!await auth0Client.isAuthenticated()) {
-            alert('Session expired. Please log in again.');
-            return null;
-        }
-
-        const token = await auth0Client.getTokenSilently(); // Get the Auth0 token
-
-        showLoading(true);
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Send the Auth0 token
-                },
-                body: JSON.stringify({ prompt })
+        const populatePainPoints = () => {
+            painPointSelect.innerHTML = '<option value="random">-- Random --</option>';
+            PAIN_POINTS.forEach(point => {
+                const option = document.createElement('option');
+                option.value = point;
+                option.textContent = point;
+                painPointSelect.appendChild(option);
             });
+        };
 
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || `API Error: ${response.status}`);
+        const populateContentGoals = () => {
+            goalSelect.innerHTML = '';
+            CONTENT_GOALS.forEach(goal => {
+                const option = document.createElement('option');
+                option.value = goal;
+                option.textContent = goal;
+                goalSelect.appendChild(option);
+            });
+        };
+
+        const getRandomOption = (selectElement) => {
+            const options = Array.from(selectElement.options).filter(opt => opt.value && opt.value !== 'random');
+            return options[Math.floor(Math.random() * options.length)].value;
+        };
+
+        const callClaudeAPI = async (prompt) => {
+            if (!await auth0Client.isAuthenticated()) {
+                alert('Session expired. Please log in again.');
+                return null;
             }
-            return data.content;
-        } catch (error) {
-            alert(`An error occurred: ${error.message}`);
-            return null;
-        } finally {
-            showLoading(false);
-        }
-    };
 
-    const handleGenerateIdeas = async () => {
-        let painPoint = painPointSelect.value === 'random' ? getRandomOption(painPointSelect) : painPointSelect.value;
-        let department = departmentSelect.value === 'random' ? getRandomOption(departmentSelect) : departmentSelect.value;
-        
-        const prompt = PROMPT_1_TEMPLATE(painPoint, department, personaInput.value, goalSelect.value);
-        const result = await callClaudeAPI(prompt);
+            const token = await auth0Client.getTokenSilently();
 
-        if (result) {
-            let startIndex = result.search(/1\.\s*\*\*Post Title/);
-            if (startIndex === -1) { 
-                startIndex = result.search(/\*\*Post Title/);
+            showLoading(true);
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ prompt })
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || `API Error: ${response.status}`);
+                }
+                return data.content;
+            } catch (error) {
+                alert(`An error occurred: ${error.message}`);
+                return null;
+            } finally {
+                showLoading(false);
             }
-            if (startIndex === -1) { startIndex = 0; }
+        };
+
+        const handleGenerateIdeas = async () => {
+            let painPoint = painPointSelect.value === 'random' ? getRandomOption(painPointSelect) : painPointSelect.value;
+            let department = departmentSelect.value === 'random' ? getRandomOption(departmentSelect) : departmentSelect.value;
             
-            const ideaListText = result.substring(startIndex);
-            const ideas = ideaListText.trim().split(/\n\s*(?=\d+\.\s*\*\*Post Title)/).filter(Boolean);
+            const prompt = PROMPT_1_TEMPLATE(painPoint, department, personaInput.value, goalSelect.value);
+            const result = await callClaudeAPI(prompt);
 
-            if (ideas.length === 0) {
-                alert("Could not parse ideas from the API response. Please try again.");
-                return;
-            }
+            if (result) {
+                let startIndex = result.search(/1\.\s*\*\*Post Title/);
+                if (startIndex === -1) { 
+                    startIndex = result.search(/\*\*Post Title/);
+                }
+                if (startIndex === -1) { startIndex = 0; }
+                
+                const ideaListText = result.substring(startIndex);
+                const ideas = ideaListText.trim().split(/\n\s*(?=\d+\.\s*\*\*Post Title)/).filter(Boolean);
 
-            ideasOutput.innerHTML = ''; 
-            ideas.forEach((ideaText, index) => {
-                const cleanIdeaText = ideaText.trim(); 
-                const radioId = `idea-${index}`;
+                if (ideas.length === 0) {
+                    alert("Could not parse ideas from the API response. Please try again.");
+                    return;
+                }
+
+                ideasOutput.innerHTML = ''; 
+                ideas.forEach((ideaText, index) => {
+                    const cleanIdeaText = ideaText.trim(); 
+                    const radioId = `idea-${index}`;
+                    const div = document.createElement('div');
+                    div.className = 'idea-item';
+                    div.innerHTML = `
+                        <input type="radio" id="${radioId}" name="selectedIdea" value="${escape(cleanIdeaText)}">
+                        <label for="${radioId}">${cleanIdeaText.replace(/\n/g, '<br>')}</label>
+                    `;
+                    ideasOutput.appendChild(div);
+                });
+                
+                const radioId = 'idea-random';
                 const div = document.createElement('div');
                 div.className = 'idea-item';
                 div.innerHTML = `
-                    <input type="radio" id="${radioId}" name="selectedIdea" value="${escape(cleanIdeaText)}">
-                    <label for="${radioId}">${cleanIdeaText.replace(/\n/g, '<br>')}</label>
+                    <input type="radio" id="${radioId}" name="selectedIdea" value="random">
+                    <label for="${radioId}"><strong>-- I'm Feeling Lucky (Pick One for Me) --</strong></label>
                 `;
                 ideasOutput.appendChild(div);
-            });
-            
-            const radioId = 'idea-random';
-            const div = document.createElement('div');
-            div.className = 'idea-item';
-            div.innerHTML = `
-                <input type="radio" id="${radioId}" name="selectedIdea" value="random">
-                <label for="${radioId}"><strong>-- I'm Feeling Lucky (Pick One for Me) --</strong></label>
-            `;
-            ideasOutput.appendChild(div);
 
-            step2Section.classList.remove('hidden');
-            finalOutputSection.classList.add('hidden');
-            postsOutput.innerHTML = '';
-        }
-    };
-    
-    const handleGeneratePosts = async () => {
-        let selectedValue = document.querySelector('input[name="selectedIdea"]:checked')?.value;
+                step2Section.classList.remove('hidden');
+                finalOutputSection.classList.add('hidden');
+                postsOutput.innerHTML = '';
+            }
+        };
+        
+        const handleGeneratePosts = async () => {
+            let selectedValue = document.querySelector('input[name="selectedIdea"]:checked')?.value;
 
-        if (!selectedValue) {
-            alert('Please select an idea first.');
-            return;
-        }
+            if (!selectedValue) {
+                alert('Please select an idea first.');
+                return;
+            }
 
-        if (selectedValue === 'random') {
-            const allIdeaRadios = document.querySelectorAll('input[name="selectedIdea"]:not([value="random"])');
-            const randomRadio = allIdeaRadios[Math.floor(Math.random() * allIdeaRadios.length)];
-            selectedValue = randomRadio.value;
-        }
+            if (selectedValue === 'random') {
+                const allIdeaRadios = document.querySelectorAll('input[name="selectedIdea"]:not([value="random"])');
+                const randomRadio = allIdeaRadios[Math.floor(Math.random() * allIdeaRadios.length)];
+                selectedValue = randomRadio.value;
+            }
 
-        const selectedIdea = unescape(selectedValue);
-        const prompt = PROMPT_2_TEMPLATE(selectedIdea, anecdoteTextarea.value);
-        const result = await callClaudeAPI(prompt);
+            const selectedIdea = unescape(selectedValue);
+            const prompt = PROMPT_2_TEMPLATE(selectedIdea, anecdoteTextarea.value);
+            const result = await callClaudeAPI(prompt);
 
-        if (result) {
-            postsOutput.innerHTML = '';
-            const drafts = result.split(/--- DRAFT \d+ ---/);
-            
-            drafts.filter(d => d.trim()).forEach((draft, index) => {
-                const draftContainer = document.createElement('div');
-                draftContainer.className = 'post-draft';
+            if (result) {
+                postsOutput.innerHTML = '';
+                const drafts = result.split(/--- DRAFT \d+ ---/);
                 
-                draftContainer.innerHTML = `
-                    <div class="post-header">
-                        <h3>Draft ${index + 1}</h3>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                    <div class="post-content">${draft.trim()}</div>
-                `;
-                postsOutput.appendChild(draftContainer);
-            });
-            
-            finalOutputSection.classList.remove('hidden');
-            document.querySelectorAll('.copy-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const content = e.target.closest('.post-draft').querySelector('.post-content').innerText;
-                    navigator.clipboard.writeText(content).then(() => {
-                        e.target.textContent = 'Copied!';
-                        setTimeout(() => { e.target.textContent = 'Copy'; }, 2000);
+                drafts.filter(d => d.trim()).forEach((draft, index) => {
+                    const draftContainer = document.createElement('div');
+                    draftContainer.className = 'post-draft';
+                    
+                    draftContainer.innerHTML = `
+                        <div class="post-header">
+                            <h3>Draft ${index + 1}</h3>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <div class="post-content">${draft.trim()}</div>
+                    `;
+                    postsOutput.appendChild(draftContainer);
+                });
+                
+                finalOutputSection.classList.remove('hidden');
+                document.querySelectorAll('.copy-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const content = e.target.closest('.post-draft').querySelector('.post-content').innerText;
+                        navigator.clipboard.writeText(content).then(() => {
+                            e.target.textContent = 'Copied!';
+                            setTimeout(() => { e.target.textContent = 'Copy'; }, 2000);
+                        });
                     });
                 });
-            });
-        }
-    };
+            }
+        };
 
-    // --- EVENT LISTENERS ---
-    generateIdeasBtn.addEventListener('click', handleGenerateIdeas);
-    generatePostsBtn.addEventListener('click', handleGeneratePosts);
-    ideasOutput.addEventListener('change', (e) => {
-        if (e.target.name === 'selectedIdea') {
-            prompt2Inputs.classList.remove('hidden');
-        }
-    });
+        generateIdeasBtn.addEventListener('click', handleGenerateIdeas);
+        generatePostsBtn.addEventListener('click', handleGeneratePosts);
+        ideasOutput.addEventListener('change', (e) => {
+            if (e.target.name === 'selectedIdea') {
+                prompt2Inputs.classList.remove('hidden');
+            }
+        });
 
-    // --- INITIALIZATION ---
-    populatePainPoints();
-    populateContentGoals();
-});
+        populatePainPoints();
+        populateContentGoals();
+
+    } catch (error) {
+        console.error("Failed to initialize the application:", error);
+        alert("Error: Could not initialize the authentication service. Please check the developer console for details. This is often caused by incorrect Auth0 credentials in app.js or misconfigured URLs in the Auth0 dashboard.");
+    }
+};
+
+// Start the application
+main();
