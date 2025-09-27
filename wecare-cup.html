@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configura tu vaso</title>
+    <style>
+        :root {
+            --ui-background: #fff;
+            --text-color: #000;
+            --accent-color: #007bff;
+            --border-color: #ddd;
+            --app-background: #f0f2f5;
+            --container-background: #fff;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--app-background);
+            color: var(--text-color);
+        }
+        #app-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        #main-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            max-width: 1400px;
+            max-height: 800px;
+            background-color: var(--container-background);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        .ui-panel {
+            flex: 0 0 300px;
+            background-color: var(--ui-background);
+            padding: 1.5rem;
+            overflow-y: auto;
+            box-sizing: border-box;
+            border-right: 1px solid #e0e0e0;
+        }
+        #canvas-container {
+            flex: 1 1 auto;
+            position: relative;
+            min-width: 0;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        label, .control-group h3 {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+        .color-swatches {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+        .swatch:hover {
+            transform: scale(1.1);
+        }
+        #error-message {
+            color: #ff4d4d;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            min-height: 1.2em;
+        }
+        .button, button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        .button:hover, button:hover {
+            background-color: #0056b3;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .file-label {
+            display: inline-block;
+            cursor: pointer;
+            padding: 0.75rem;
+        }
+        #color-picker-container {
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            #app-wrapper {
+                padding: 1rem;
+                height: auto;
+                min-height: 100vh;
+            }
+            #main-container {
+                flex-direction: column;
+                height: 95vh;
+            }
+            .ui-panel {
+                flex: 0 0 auto;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+                "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/controls/OrbitControls.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="app-wrapper">
+        <div id="main-container">
+            <div class="ui-panel">
+                <div class="control-group">
+                    <h3>Configura tu Vaso</h3>
+                    <div id="color-picker-container"></div>
+                    <div class="color-swatches">
+                        <div class="swatch" style="background-color: #222222;" data-color="#222222"></div>
+                        <div class="swatch" style="background-color: #201BD9;" data-color="#201BD9"></div>
+                        <div class="swatch" style="background-color: #CA3838;" data-color="#CA3838"></div>
+                        <div class="swatch" style="background-color: #FEB415;" data-color="#FEB415"></div>
+                        <div class="swatch" style="background-color: #33AB57;" data-color="#33AB57"></div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <h3>Sube tu logo</h3>
+                    <label for="logo-upload" class="button file-label">Subir Imagen</label>
+                    <input type="file" id="logo-upload" accept=".png, .jpg, .jpeg, .svg">
+                    <div id="error-message"></div>
+                </div>
+                <div class="control-group">
+                    <label for="scale-slider">Tamaño del Logo</label>
+                    <input type="range" id="scale-slider" min="0.1" max="1.5" step="0.05" value="0.5">
+                </div>
+                <div class="control-group">
+                     <button id="download-btn">Descarga tu Captura</button>
+                </div>
+            </div>
+            <div id="canvas-container"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+        let scene, camera, renderer, controls, cupGroup, cupBody, logoMesh;
+        
+        const raycaster = new THREE.Raycaster();
+        const pointer = new THREE.Vector2();
+        let isDraggingLogo = false;
+        let isOrbiting = false; 
+
+        const canvasWidth = 1250;
+        const canvasHeight = 550;
+        const offscreenCanvas = document.createElement('canvas');
+        offscreenCanvas.width = canvasWidth;
+        offscreenCanvas.height = canvasHeight;
+        const offscreenCtx = offscreenCanvas.getContext('2d');
+        const logoTexture = new THREE.CanvasTexture(offscreenCanvas);
+
+        let uploadedImage = null;
+        const logoState = {
+            x: 0, y: 0, width: 0, height: 0, scale: 0.5, dragStartX: 0, dragStartY: 0
+        };
+
+        const ui = {
+            canvasContainer: document.getElementById('canvas-container'),
+            swatches: document.querySelectorAll('.swatch'),
+            logoUpload: document.getElementById('logo-upload'),
+            scaleSlider: document.getElementById('scale-slider'),
+            downloadBtn: document.getElementById('download-btn'),
+            errorMessage: document.getElementById('error-message'),
+        };
+        
+        const colorPicker = new iro.ColorPicker('#color-picker-container', {
+            width: 240,
+            color: "#C4A484",
+            borderWidth: 1,
+            borderColor: "#ccc",
+            layout: [
+                { component: iro.ui.Box },
+                { component: iro.ui.Slider, options: { sliderType: 'hue' } }
+            ]
+        });
+        
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f0f0);
+
+            const width = ui.canvasContainer.clientWidth;
+            const height = ui.canvasContainer.clientHeight;
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+            camera.position.set(0, 6, 12); 
+            camera.lookAt(0, 2, 0);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+            renderer.setSize(width, height);
+            renderer.shadowMap.enabled = true;
+            ui.canvasContainer.appendChild(renderer.domElement);
+
+            addLights();
+            createCup();
+            
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.target.set(0, 2, 0);
+            controls.enableDamping = true;
+            controls.minDistance = 5;
+            controls.maxDistance = 25;
+
+            addEventListeners();
+            animate();
+        }
+
+        function addLights() {
+            const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+            directionalLight.position.set(25, 10, 7.5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 1024;
+            directionalLight.shadow.mapSize.height = 1024;
+            scene.add(directionalLight);
+        }
+        
+        function createCup() {
+            cupGroup = new THREE.Group();
+            
+            // Material for the outer part of the cup
+            const outerCupMaterial = new THREE.MeshStandardMaterial({
+                color: 0xC4A484, 
+                metalness: 0.0, 
+                roughness: 0.8,
+            });
+
+            // Material for the inner part of the cup - always white
+            const innerCupMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.0,
+                roughness: 0.8,
+            });
+
+            const cupHeight = 5;
+            const cupRadiusTop = 2;
+            const cupRadiusBottom = 1.5;
+            const wallThickness = 0.05;
+
+            // Outer wall of the cup. This is also the object we'll use for raycasting.
+            const bodyGeometry = new THREE.CylinderGeometry(cupRadiusTop, cupRadiusBottom, cupHeight, 64, 1, true);
+            cupBody = new THREE.Mesh(bodyGeometry, outerCupMaterial.clone());
+            cupBody.castShadow = true;
+            cupBody.receiveShadow = true;
+            cupBody.name = "outer"; // Tag for color updates
+            cupGroup.add(cupBody);
+
+            // Inner wall of the cup
+            const innerBodyGeometry = new THREE.CylinderGeometry(cupRadiusTop - wallThickness, cupRadiusBottom - wallThickness, cupHeight, 64, 1, true);
+            const cupBodyInner = new THREE.Mesh(innerBodyGeometry, innerCupMaterial.clone());
+            cupBodyInner.geometry.scale(-1, 1, 1); // Flip normals to light the inside correctly
+            cupBodyInner.name = "inner";
+            cupGroup.add(cupBodyInner);
+
+            // A separate, slightly larger cylinder for the logo texture.
+            const logoGeometry = new THREE.CylinderGeometry(cupRadiusTop + 0.01, cupRadiusBottom + 0.01, cupHeight, 64, 1, true);
+            const logoMaterial = new THREE.MeshStandardMaterial({
+                map: logoTexture,
+                transparent: true,
+            });
+            logoMesh = new THREE.Mesh(logoGeometry, logoMaterial);
+            cupGroup.add(logoMesh);
+
+            // The inner bottom circular face of the cup (white).
+            const bottomGeometry = new THREE.CircleGeometry(cupRadiusBottom, 64);
+            const cupBottom = new THREE.Mesh(bottomGeometry, innerCupMaterial.clone());
+            cupBottom.rotation.x = Math.PI / 2; // Aligns the circle to be the bottom, facing up
+            cupBottom.position.y = -cupHeight / 2 + 0.2; // Inset from the very bottom
+            cupBottom.name = "inner";
+            cupGroup.add(cupBottom);
+
+            // The rolled rim at the top of the cup.
+            const rimGeometry = new THREE.TorusGeometry(cupRadiusTop, 0.08, 16, 100);
+            const cupRim = new THREE.Mesh(rimGeometry, innerCupMaterial.clone());
+            cupRim.rotation.x = Math.PI / 2;
+            cupRim.position.y = cupHeight / 2;
+            cupRim.name = "inner"; // This part will now stay white
+            cupGroup.add(cupRim);
+            
+            // Position the entire cup group so its base sits on the y=0 plane.
+            cupGroup.position.y = cupHeight / 2 + 0.05;
+            scene.add(cupGroup);
+        }
+        
+        function redrawCanvas() {
+            if (!offscreenCtx) return;
+            offscreenCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+            if (uploadedImage) {
+                const aspectRatio = uploadedImage.naturalWidth / uploadedImage.naturalHeight;
+                const baseHeight = canvasHeight * 0.5;
+                const scaledHeight = baseHeight * logoState.scale;
+                const scaledWidth = scaledHeight * aspectRatio;
+                logoState.width = scaledWidth;
+                logoState.height = scaledHeight;
+                offscreenCtx.drawImage(uploadedImage, logoState.x, logoState.y, logoState.width, logoState.height);
+            }
+            logoTexture.needsUpdate = true;
+        }
+
+        function addEventListeners() {
+            window.addEventListener('resize', onWindowResize);
+            
+            colorPicker.on('color:change', function(color) {
+                updateCupColor(color.hexString);
+            });
+
+            ui.swatches.forEach(swatch => {
+                swatch.addEventListener('click', () => {
+                    const color = swatch.dataset.color;
+                    colorPicker.color.set(color);
+                });
+            });
+
+            ui.logoUpload.addEventListener('change', handleFileUpload);
+            ui.scaleSlider.addEventListener('input', (e) => {
+                logoState.scale = parseFloat(e.target.value);
+                redrawCanvas();
+            });
+            ui.downloadBtn.addEventListener('click', downloadSnapshot);
+            controls.addEventListener('start', () => { isOrbiting = true; });
+            controls.addEventListener('end', () => { isOrbiting = false; });
+            renderer.domElement.addEventListener('pointerdown', onPointerDown);
+            renderer.domElement.addEventListener('pointermove', onPointerMove);
+            renderer.domElement.addEventListener('pointerup', onPointerUp);
+            renderer.domElement.addEventListener('pointercancel', onPointerUp);
+        }
+        
+        function updateCupColor(hexColor) {
+            const color = new THREE.Color(hexColor);
+            // Update all "outer" cup parts
+            cupGroup.children.forEach(child => {
+                if (child.isMesh && child.name === "outer") {
+                    child.material.color.set(color);
+                }
+            });
+        }
+        
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            ui.errorMessage.textContent = '';
+            if (!file) return;
+            const allowedTypes = ['image/png', 'image/jpeg', 'image/svg+xml'];
+            if (!allowedTypes.includes(file.type)) {
+                ui.errorMessage.textContent = 'Invalid file type. Use PNG, JPG, or SVG.';
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) { 
+                ui.errorMessage.textContent = 'File is too large (max 5 MB).';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    uploadedImage = img;
+                    logoState.scale = parseFloat(ui.scaleSlider.value);
+                    const aspectRatio = uploadedImage.naturalWidth / uploadedImage.naturalHeight;
+                    const baseHeight = canvasHeight * 0.5;
+                    const initialHeight = baseHeight * logoState.scale;
+                    const initialWidth = initialHeight * aspectRatio;
+                    logoState.x = (canvasWidth - initialWidth) / 2;
+                    logoState.y = (canvasHeight - initialHeight) / 2;
+                    redrawCanvas();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function onWindowResize() {
+            const width = ui.canvasContainer.clientWidth;
+            const height = ui.canvasContainer.clientHeight;
+            
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function onPointerDown(event) {
+            updatePointer(event);
+            raycaster.setFromCamera(pointer, camera);
+            const intersects = raycaster.intersectObject(cupBody);
+            if (intersects.length > 0 && uploadedImage && Math.abs(intersects[0].face.normal.y) < 0.9) {
+                const uv = intersects[0].uv;
+                const canvasX = uv.x * canvasWidth;
+                const canvasY = (1 - uv.y) * canvasHeight; 
+                if (canvasX >= logoState.x && canvasX <= logoState.x + logoState.width &&
+                    canvasY >= logoState.y && canvasY <= logoState.y + logoState.height) {
+                    isDraggingLogo = true;
+                    controls.enabled = false;
+                    logoState.dragStartX = canvasX - logoState.x;
+                    logoState.dragStartY = canvasY - logoState.y;
+                }
+            }
+        }
+        
+        function onPointerMove(event) {
+            if (isDraggingLogo) {
+                updatePointer(event);
+                raycaster.setFromCamera(pointer, camera);
+                const intersects = raycaster.intersectObject(cupBody);
+                if (intersects.length > 0) {
+                    const uv = intersects[0].uv;
+                    const canvasX = uv.x * canvasWidth;
+                    const canvasY = (1 - uv.y) * canvasHeight;
+                    logoState.x = canvasX - logoState.dragStartX;
+                    logoState.y = canvasY - logoState.dragStartY;
+                    redrawCanvas();
+                }
+            }
+        }
+        
+        function onPointerUp() {
+            isDraggingLogo = false;
+            controls.enabled = true;
+        }
+        
+        function updatePointer(event){
+            const rect = renderer.domElement.getBoundingClientRect();
+            pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        }
+        
+        function downloadSnapshot() {
+            const dataURL = renderer.domElement.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'cup-snapshot.png';
+            link.click();
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!isOrbiting && !isDraggingLogo) {
+                cupGroup.rotation.y += 0.004;
+            }
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        init();
+        updateCupColor(colorPicker.color.hexString);
+    </script>
+</body>
+</html>
+
