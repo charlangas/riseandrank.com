@@ -1,10 +1,8 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function (event, context) {
-  // Use the Auth0 integration to verify the user
   const { user } = context.clientContext;
 
-  // 1. Check if a user is logged in
   if (!user) {
     return {
       statusCode: 401,
@@ -12,15 +10,13 @@ exports.handler = async function (event, context) {
     };
   }
 
-  // 2. Check if the user's email matches your domain
   if (!user.email.endsWith('@riseandrank.com')) {
     return {
       statusCode: 403,
       body: JSON.stringify({ error: 'Forbidden: Access is restricted to authorized users.' }),
     };
   }
-
-  // The rest of the function proceeds only if the user is authenticated and authorized
+  
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -41,7 +37,8 @@ exports.handler = async function (event, context) {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            model: 'claude-3-sonnet-20240229',
+            // === THIS LINE IS UPDATED BASED ON THE NEW DOCS ===
+            model: 'claude-sonnet-4-20250514', // 
             max_tokens: 4096,
             messages: [{ role: 'user', content: prompt }],
         }),

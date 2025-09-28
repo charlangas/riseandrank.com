@@ -7,7 +7,7 @@ const main = async () => {
             domain: 'dev-658pplz7hlkua00p.us.auth0.com', // Replace with your Auth0 Domain
             clientId: 'SSfHzCrn2NXoAqaYaRjbwrX7AYhISamg', // Replace with your Auth0 Client ID
             authorizationParams: {
-                redirect_uri: window.location.href,
+                redirect_uri: 'https://riseandrank.com/linkedin/',
             },
         });
 
