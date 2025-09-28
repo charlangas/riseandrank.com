@@ -7,38 +7,52 @@
     <title>Case Study: RPM Logistics Content Overhaul | Rise and Rank</title>
     <meta name="description" content="Read how a strategic content overhaul helped RPM, a logistics leader, slash CPL and capture high-value enterprise leads.">
     
-    <link rel="icon" href="../img/favicon.png" sizes="any">
-    <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+    <link rel="icon" href="img/favicon.png" sizes="any">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
 
-    <!-- Ensure paths are correct for your file structure -->
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="case-study.css">
 </head>
 <body>
 
     <main class="site-wrapper">
-        <!-- MODIFIED: Site Header with New Navigation -->
+        <!-- MODIFIED: Site Header with Full Navigation -->
         <header class="site-header">
             <div class="container">
                 <nav class="header-nav">
                     <div class="logo">
                         <a href="../index.html"><img src="../img/logo-black.svg" alt="Rise and Rank Logo"></a>
                     </div>
-                    <!-- NEW: Navigation Links -->
-                    <div class="nav-links">
-                        <a href="#">Case Studies</a>
-                        <!-- Add future links like <a href="#">Services</a> here -->
+                    <!-- NEW: Wrapper for all nav elements -->
+                    <div class="nav-wrapper">
+                        <div class="desktop-nav-links">
+                            <a href="#">Case Studies</a>
+                        </div>
+                        <a href="../book.html" class="btn desktop-btn">Book a Call</a>
                     </div>
-                    <a href="../book.html" class="btn">Book a Call</a>
+                    <!-- NEW: Mobile Hamburger Button -->
+                    <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                        <span class="sr-only">Menu</span>
+                        <svg class="icon-hamburger" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 12H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 6H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 18H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 6L18 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </nav>
             </div>
         </header>
 
+        <!-- The rest of your article content remains the same... -->
         <article class="case-study">
             <section class="case-study-hero">
                 <div class="container case-study-grid">
@@ -171,7 +185,7 @@
             <div id="cta" class="cta-section cta-1">
                 <div class="container">
                     <h2>Ready to turn your company's expertise into your most powerful growth engine?</h2>
-                    <a href="book.html" class="btn">Contact us today</a>
+                    <a href="../book.html" class="btn">Contact us today</a>
                 </div>
             </div>
         </article>
@@ -207,3 +221,4 @@
     <script src="../script.js"></script>    
 </body>
 </html>
+

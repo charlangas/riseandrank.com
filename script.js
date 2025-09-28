@@ -1,5 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
     
+    // --- NEW: MOBILE NAVIGATION SCRIPT ---
+    const navWrapper = document.querySelector('.nav-wrapper');
+    const navToggle = document.querySelector('.mobile-nav-toggle');
+    const hamburgerIcon = navToggle.querySelector('.icon-hamburger');
+    const closeIcon = navToggle.querySelector('.icon-close');
+    const body = document.body;
+
+    navToggle.addEventListener('click', () => {
+        const isVisible = navWrapper.getAttribute('data-visible');
+
+        if (isVisible === 'false' || isVisible === null) {
+            navWrapper.setAttribute('data-visible', true);
+            navToggle.setAttribute('aria-expanded', true);
+            hamburgerIcon.style.display = 'none';
+            closeIcon.style.display = 'block';
+            body.classList.add('nav-open');
+        } else {
+            navWrapper.setAttribute('data-visible', false);
+            navToggle.setAttribute('aria-expanded', false);
+            hamburgerIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+            body.classList.remove('nav-open');
+        }
+    });
+
     // --- FAQ ACCORDION SCRIPT ---
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
