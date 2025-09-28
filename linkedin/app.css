@@ -22,6 +22,22 @@ body {
     text-align: center;
 }
 
+.link-button {
+    background: none; /* Removes the default button background */
+    border: none; /* Removes the default button border */
+    color: var(--primary-blue, #010AD1); /* Sets the text color to your primary blue */
+    padding: 0; /* Removes default button padding */
+    font-family: inherit; /* Uses the same font as the surrounding text */
+    font-size: inherit; /* Uses the same font size as the surrounding text */
+    text-decoration: underline; /* Underlines the text like a link */
+    cursor: pointer; /* Shows a pointer hand on hover */
+    font-weight: 600; /* Makes the font slightly bolder */
+}
+
+.link-button:hover {
+    color: #01089a; /* Darkens the blue slightly on hover */
+}
+
 .tool-section {
     background-color: #ffffff;
     padding: 30px;
