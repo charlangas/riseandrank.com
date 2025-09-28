@@ -1,12 +1,15 @@
+# This section tells Netlify how to build your site.
 [build]
-  # This line can often be removed if you don't have a build step
-  # command = "npm run build"
+  # This command copies the Auth0 file and must be run.
+  command = "npm run build"
   
-  # Corrected: Tell Netlify your website files are in the current directory.
+  # This tells Netlify your website files are in the current directory.
   publish = "."
 
+# This section configures your serverless functions.
 [functions]
-  # Ensure this path matches where your 'generate-content.js' file is.
-  # The standard is a 'functions' folder inside a 'netlify' folder.
+  # This is the directory where your function files are located.
   directory = "netlify/functions"
+  
+  # This increases the function timeout to 30 seconds.
   timeout = 30
