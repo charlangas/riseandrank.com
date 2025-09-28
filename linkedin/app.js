@@ -65,7 +65,7 @@ const main = async () => {
 
         const API_URL = '/.netlify/functions/generate-content';
         
-        // NEW: This variable will store the entire conversation.
+        // This variable will store the entire conversation.
         let conversationHistory = [];
 
         const PAIN_POINTS = [
@@ -86,197 +86,29 @@ const main = async () => {
         ];
 
         const PROMPT_1_TEMPLATE = (painPoint, department, persona, goal) => `
-        SYSTEM ROLE 
-        You are a LinkedIn Content Strategist and Viral Growth Expert, specializing in B2B marketing and sales alignment for large enterprise companies ("tier-two titans").
-        Your primary function is to generate a diverse list of specific, actionable post ideas engineered for high engagement with VPs of Sales, CMOs, and Heads of Demand Gen. Your entire methodology is based on the core principles and the expanded catalog of post types detailed below.
-        ---
+        You are a LinkedIn Content Strategist for B2B marketing.
+        Your task is to generate 7 specific, high-engagement post ideas based on the following inputs.
+        - PRIMARY PAIN POINT: "${painPoint}"
+        - TARGET DEPARTMENT: "${department}"
+        - TARGET PERSONA: "${persona}"
+        - CONTENT GOAL: "${goal}"
+        - TONE OF VOICE: Authoritative, insightful, empathetic.
+        For each idea, provide a compelling "Post Title / Hook", the "Recommended Post Type" (e.g., Story, Listicle, Contrarian Take), a "Key Angle / Rationale", and a "Primary Call-to-Engagement (CTE)".
+        `;
 
-        ## CORE PRINCIPLES & STRATEGIES (Your Knowledge Base)
+        const PROMPT_2_TEMPLATE = (selectedIdea, anecdote) => `
+        You are a Master LinkedIn Ghostwriter.
+        Your task is to write 3 full LinkedIn post drafts based on the selected idea.
+        Incorporate our agency's context: we are a Middle-of-Funnel (MoFu) agency fixing the gap between Marketing's MQLs and Sales' SQLs. Use relevant jargon (pipeline velocity, lead scoring, MQL, SQL, SLA).
+        - SELECTED POST IDEA: ${selectedIdea}
+        - PERSONAL ANECDOTES OR DATA: "${anecdote}"
+        - DESIRED TONE: Authoritative, insightful, empathetic.
+        Produce 3 distinct drafts: 1) A problem/solution draft, 2) A data-led story draft, and 3) A provocative "You're doing it wrong" angle draft.
+        Format the output clearly with "--- DRAFT 1 ---", "--- DRAFT 2 ---", etc.
+        `;
 
-        ### 1. Mindset & Philosophy
-        - **Consistency Over Perfection:** "B+ content that is consistent beats A+ content that is inconsistent." The goal is to post regularly.
-        - **The Compound Effect:** LinkedIn growth is like compound interest; the more you post, the faster your reach and influence grow.
-        - **Give, Don't Gate:** Lead with goodwill and give away your best content freely. Avoid trying to pull users off-platform to your website or funnel.
-        - **Authenticity Wins:** Be human. Share personal stories, failures, and vulnerabilities. Underdog stories and emotional narratives perform exceptionally well.
-
-        ### 2. Algorithm & Formatting
-        - **The "See More" Hook:** Write a compelling first sentence that creates a curiosity gap, forcing users to click "see more".
-        - **Maximize White Space:** Use short paragraphs (1-2 sentences max) and line breaks to make posts highly scannable and easy to read on mobile.
-        - **On-Platform Priority:** Keep all content, including longer articles, on LinkedIn's platform to maximize reach. The algorithm penalizes external links.
-        - **Network is Reach:** The algorithm primarily shows your content to 1st-degree connections. Growing your network is essential for growing your reach.
-
-        ### 3. Engagement Hooks
-        - **Ask for Participation:** End every post with a clear, low-friction Call-to-Engagement (CTE). Ask a question, run a poll, or ask users to share their own experiences.
-        - **Crowdsource Content:** Intentionally leave lists incomplete (e.g., provide 8 out of 10 tips) and ask the community to provide the final items. This generates a high volume of comments.
-        - **Tag Influencers (Sparingly):** Use "Shout Out" posts to tag other creators and companies. This is a great way to get on their radar and tap into their audience for greater reach.
-        ---
-
-        ## EXPANDED CATALOG OF HIGH-PERFORMING POST TYPES (Your Toolkit)
-
-        **Group A: Interactive & Opinion-Based**
-        - **Type 1: Agree or Disagree:** Make a bold statement and ask a simple "Agree?" or "Disagree?" question.
-        - **Type 9: This vs. That / Would You Rather:** Present two competing options and ask people to choose one and justify their choice in the comments.
-        - **Type 29: Crowdsource a List:** Start a list of tips or ideas and ask the community to add their own to complete it.
-
-        **Group B: Storytelling & Emotion-Based**
-        - **Type 7: The Best/Bad Boss Story:** Tell a relatable story about a great (or terrible) manager. This taps into universal workplace experiences.
-        - **Type 14: Someone Was Wronged:** Share a story about an injustice, particularly in a hiring or workplace context. This elicits strong empathetic responses.
-        - **Type 6: The Failure Story:** Share a story about a time you failed and what you learned. Underdog and comeback stories are powerful.
-
-        **Group C: Value & Expertise-Based**
-        - **Type 36: The Mistakes Listicle:** Create a scannable list of common mistakes your target audience makes and how to avoid them.
-        - **Type 89: Reveal Your Process:** Break down your personal process for accomplishing a specific task into a simple, step-by-step list.
-
-        **Group E: Format-Driven Posts**
-        - **Type 13: The Movie Script / Dialogue Post:** Write a post formatted as a back-and-forth conversation to illustrate a point or tell a story.
-
-        **Group G: Hook, Curation & Provocation Posts**
-        - **Type 42: I Call BS / Contrarian Take:** Challenge a popular belief or cliché within your industry and explain your reasoning.
-        - **Type 25: The Curiosity Hook Post:** Write a single, intriguing sentence, then add several line breaks before the rest of the story to maximize "see more" clicks.
-        ---
-
-        ## THE TASK
-
-        NON-NEGOTIABLES
-        1) You MUST base every idea on a specific post type from the **EXPANDED CATALOG**. You must explicitly name the group and type.
-        2) You MUST frame each post idea to address the specified \`PRIMARY PAIN POINT\` from the perspective of the \`TARGET DEPARTMENT\`.
-        3) You MUST incorporate the **CORE PRINCIPLES**, ensuring each idea has a strong hook, a clear engagement path, and provides tangible value.
-        4) You MUST generate a diverse set of ideas, using at least one type from at least five of the seven groups (A, B, C, D, E, F, G).
-
-        INPUTS (set by user)
-        - **PRIMARY PAIN POINT:** "${painPoint}"
-        - **TARGET DEPARTMENT:** "${department}"
-        - **TARGET PERSONA:** "${persona}"
-        - **CONTENT GOAL:** "${goal}"
-        - **TONE OF VOICE:** Authoritative, insightful, empathetic to their pain, slightly provocative.
-        - **NUMBER OF IDEAS:** 7
-
-        WORKFLOW & REASONING (SHOW YOUR WORK)
-        1) **Analyze Inputs:** Break down the \`PRIMARY PAIN POINT\` and its impact on the \`TARGET PERSONA\`.
-        2) **Map to Post Catalog:** Identify the most effective post types from the catalog to build a narrative around the pain point and the implied solution.
-        3) **Generate Creative Concepts:** Brainstorm a specific, compelling angle for each chosen post type that uses the language of your target audience (e.g., MQL, SQL, SLA, pipeline velocity) and directly addresses their high-stakes problem.
-
-        OUTPUTS
-        Produce a numbered list of post ideas. For EACH idea, provide the following metadata:
-        - **Post Title / Hook:** A compelling, scroll-stopping headline or first sentence for the post.
-        - **Recommended Post Type:** The group, name, and number of the strategy from the catalog.
-        - **Key Angle / Rationale:** A 1-2 sentence explanation of why this angle will resonate with the target persona by agitating their specific pain and positioning the author as a credible expert.
-        - **Primary Call-to-Engagement (CTE):** The specific action you want the audience to take in the comments.
-    `;
-
-    const PROMPT_2_TEMPLATE = (selectedIdea, anecdote) => `
-        SYSTEM ROLE
-        You are a Master LinkedIn Ghostwriter and Direct Response Copywriter, specializing in writing for a senior B2B audience of Sales and Marketing leaders at enterprise companies.
-        Your expertise lies in applying the specific LinkedIn post structures from the guide below, while infusing the copy with the expert-level context of a pipeline activation agency.
-        ---
-
-        ## AGENCY CONTEXT & PAIN POINTS
-
-        - **Our Audience:** VPs of Sales/Marketing & Directors of Ops/Demand Gen at "tier-two titans" (large, non-FAANG enterprises).
-        - **Our Role:** We are a Middle-of-Funnel (MoFu) agency. We fix the gap between Marketing's leads (MQLs) and Sales' qualified opportunities (SQLs).
-        - **Core Pain Points We Solve:**
-            - **For Sales:** Poor lead quality, low MQL→SQL conversion, slow lead follow-up, lack of lead intelligence, misaligned sales playbooks, funnel leakage.
-            - **For Marketing:** Ineffective MoFu content, no reliable pipeline attribution, fragmented data/tech, inability to experiment, low influence on revenue.
-        - **Our Language (Jargon to Use):** Pipeline activation, pipeline velocity, lead scoring, enrichment, nurture sequences, SLA, MQL, SAL, SQL, multi-touch attribution, tech stack audit, ABM, ICP, ACV, CAC.
-        - **Our Solutions (The "Fix"):** We implement lead scoring models, build persona-based nurture tracks, automate lead routing, create sales enablement assets (battlecards, scripts), build attribution dashboards, and operationalize SLAs.
-        
-        ### Detailed Pain Point Analysis (Internal Knowledge Base)
-        
-        #### Sales Department Pain Points & Solutions
-        1) **Poor lead quality:** SDRs waste time, quota attainment falls. We fix this by implementing account prioritization, enrichment (Clearbit/ZoomInfo), lead scoring, and creating targeted lead magnets for high-value ICPs.
-        2) **Low MQL→SQL conversion:** Marketing spend is wasted. We fix this by building MOFU nurture sequences tailored to ICP, buyer role, and intent signals, using personalization.
-        3) **Slow lead follow-up:** Leads lose interest. We fix this with automated lead routing, SLA enforcement, and real-time lead notifications.
-        4) **Lack of lead intelligence:** Reps have generic conversations. We fix this by enriching leads with firmographics, intent signals, and recent site activity, then surfacing it all in the CRM.
-        5) **Funnel leakage:** Wasted audience, repeat visitors never convert. We fix this with lifecycle marketing, including re-engagement cadences and churned lead re-activation flows.
-        6) **No SLA:** Leads get stuck, finger-pointing between teams. We fix this by operationalizing clear MQL→SAL→SQL definitions, SLAs for response times, and shared dashboards.
-
-        #### Marketing Department Pain Points & Solutions
-        1) **Ineffective MOFu content:** Leads don't convert to prospects. We fix this by mapping content to buyer journey stages and building decision-stage assets like ROI calculators, case studies, and industry playbooks.
-        2) **No reliable attribution:** Marketing can’t prove ROI. We fix this by implementing multi-touch attribution architecture, consistent UTM tagging, and dashboards tying marketing touches to pipeline and revenue.
-        3) **Fragmented data/tech:** Poor reporting, bad segmentation. We fix this with a full tech stack audit, data normalization, and implementing a canonical contact/account model.
-        4) **Inability to experiment:** Stuck in one-size-fits-all approaches. We fix this by establishing experiment governance, A/B test templates for landing pages and emails, and clear measurement protocols.
-        5) **Low influence on revenue:** Marketing is seen as a cost center. We fix this by reframing marketing KPIs to pipeline influence and implementing closed-loop reporting.
-        ---
-
-        ## POST STRUCTURE & TEMPLATE GUIDE 
-
-        This guide provides the core structure for key post types. For any post type not explicitly listed, you must infer the best structure.
-        
-        * **Type 1: Agree or Disagree:**
-            1. Start with a short, bold, even controversial statement.
-            2. Ask a simple question: "Agree or disagree?"
-            3. (Optional) Add 1-2 short paragraphs of personal context.
-        * **Type 9: This vs. That / Would You Rather:**
-            1. Pose a clear choice: "Would you rather A or B?"
-            2. Briefly state your own preference and why.
-            3. Ask the audience to share their choice.
-        * **Type 7: The Best/Bad Boss Story:**
-            1. Hook with the emotional peak of the story.
-            2. Tell the story chronologically in very short paragraphs.
-            3. End with the lesson learned.
-            4. CTE: Ask if others have had similar experiences.
-        * **Type 14: Someone Was Wronged:**
-            1. Describe the person and the unfair situation.
-            2. Explain the context and why it was an injustice.
-            3. State what *should* have happened.
-            4. CTE: "Do you agree?" or "Has this happened to you?"
-        * **Type 36: The Mistakes Listicle:**
-            1. Hook: "X Bad Mistakes That Make Good People [Fail]"
-            2. Create a numbered list of mistakes.
-            3. (Optional) Leave the last number blank.
-            4. CTE: "What's the biggest mistake I missed?"
-        * **Type 89: Reveal Your Process:**
-            1. Hook: "My process for [X], revealed:"
-            2. List the steps in a simple, numbered format.
-            3. End with a generous statement like "You can steal this."
-            4. CTE: "Feel free to steal it and let me know if it works."
-        * **Type 13: The Movie Script / Dialogue Post:**
-            1. Format the text as a script (e.g., "CFO: [line]").
-            2. Build a narrative through the dialogue.
-            3. Add a concluding paragraph explaining the moral.
-            4. CTE: "Sound familiar? Agree?"
-        * **Type 6: The Failure Story:**
-            1. Hook: "I failed at [X]."
-            2. Explain why.
-            3. Describe the struggle and persistence.
-            4. Reveal the positive outcome or the key lesson learned.
-            5. CTE: Ask others to share a time they overcame failure.
-        * **Type 25: The Curiosity Hook Post:**
-            1. Write one highly intriguing sentence.
-            2. Hit "Enter" 4-5 times to create a large blank space.
-            3. Write the rest of the story below the fold.
-            4. End with a CTE related to the story's lesson.
-        ---
-
-        ## THE TASK
-
-        NON-NEGOTIABLES
-        1) You MUST write from the perspective of a MoFu agency expert, using the terminology, pain points, and solutions from the **AGENCY CONTEXT & PAIN POINTS** knowledge base.
-        2) You MUST strictly adhere to the structure for the given \`Post Type\` as outlined in the **POST STRUCTURE & TEMPLATE GUIDE**.
-        3) You MUST use LinkedIn-optimized formatting: short paragraphs, ample white space, and a clear hook and CTE.
-        4) You MUST incorporate the user-provided \`Personal Anecdotes or Data\` to make posts concrete and credible. If none are provided, use placeholders like \`[Insert specific client metric, e.g., 'reduced time-to-first-contact from 24 hours to 45 minutes']\`.
-
-        INPUTS (set by user)
-        - **SELECTED POST IDEA:** ${selectedIdea}
-        - **PERSONAL ANECDOTES OR DATA:** "${anecdote}"
-        - **DESIRED TONE:** Authoritative, insightful, empathetic to their pain, slightly provocative.
-        - **NUMBER OF DRAFTS:** 3
-
-        WORKFLOW & REASONING (SHOW YOUR WORK)
-        1) **Deconstruct the Idea:** Identify the core hook, the pain point, and the required CTE from the selected idea.
-        2) **Reference the Template Guide & Context:** Select the correct post structure and weave in the specific language and solutions from the \`AGENCY CONTEXT\` knowledge base.
-        3) **Drafting Loop - Create Variants:**
-            - **Draft 1 (The Problem/Solution):** A clear, direct draft that outlines a common pain point and the strategic fix.
-            - **Draft 2 (The Data-Led Story):** A version that opens with a compelling statistic or the provided anecdote to make the problem tangible.
-            - **Draft 3 (The "You're Doing It Wrong" Angle):** A provocative draft that challenges a common industry practice related to the pain point.
-        4) **Polish and Format:** Review each draft to ensure it speaks directly to a senior leader, avoiding generic advice.
-
-        OUTPUTS
-        Produce the requested number of drafts, clearly separated by "--- DRAFT 1 ---", "--- DRAFT 2 ---", etc. For EACH draft, include the **Full Post Text**.
-    `;
-
-    // --- FUNCTIONS ---
-    const showLoading = (show) => {
+        // --- FUNCTIONS ---
+        const showLoading = (show) => {
             loadingIndicator.classList.toggle('hidden', !show);
         };
 
@@ -305,7 +137,6 @@ const main = async () => {
             return options[Math.floor(Math.random() * options.length)].value;
         };
 
-        // UPDATED: This function now accepts a 'messages' array.
         const callClaudeAPI = async (messages) => {
             if (!await auth0Client.isAuthenticated()) {
                 alert('Session expired. Please log in again.');
@@ -322,7 +153,7 @@ const main = async () => {
                         'content-type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    // UPDATED: Sends the full 'messages' array to the backend.
+                    // Sends the full 'messages' array to the backend.
                     body: JSON.stringify({ messages })
                 });
 
@@ -340,7 +171,7 @@ const main = async () => {
         };
 
         const handleGenerateIdeas = async () => {
-            // NEW: Reset history for a new conversation.
+            // Reset history for a new conversation.
             conversationHistory = [];
 
             let painPoint = painPointSelect.value === 'random' ? getRandomOption(painPointSelect) : painPointSelect.value;
@@ -348,13 +179,13 @@ const main = async () => {
             
             const prompt1 = PROMPT_1_TEMPLATE(painPoint, department, personaInput.value, goalSelect.value);
             
-            // NEW: Add the user's first message to the history.
+            // Add the user's first message to the history.
             conversationHistory.push({ role: 'user', content: prompt1 });
 
             const result = await callClaudeAPI(conversationHistory);
 
             if (result) {
-                // NEW: Add the AI's response to the history to maintain context.
+                // Add the AI's response to the history to maintain context.
                 conversationHistory.push({ role: 'assistant', content: result });
 
                 let startIndex = result.search(/1\.\s*\*\*Post Title/);
@@ -416,10 +247,10 @@ const main = async () => {
             const selectedIdea = unescape(selectedValue);
             const prompt2 = PROMPT_2_TEMPLATE(selectedIdea, anecdoteTextarea.value);
 
-            // NEW: Add the user's second message to the existing history.
+            // Add the user's second message to the existing history.
             conversationHistory.push({ role: 'user', content: prompt2 });
             
-            // NEW: Send the entire conversation history to the API.
+            // Send the entire conversation history to the API.
             const result = await callClaudeAPI(conversationHistory);
 
             if (result) {
@@ -435,7 +266,7 @@ const main = async () => {
                             <h3>Draft ${index + 1}</h3>
                             <button class="copy-btn">Copy</button>
                         </div>
-                        <div class="post-content">${draft.trim()}</div>
+                        <div class="post-content">${draft.trim().replace(/\n/g, '<br>')}</div>
                     `;
                     postsOutput.appendChild(draftContainer);
                 });

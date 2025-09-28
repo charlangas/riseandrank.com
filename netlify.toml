@@ -1,6 +1,11 @@
 [build]
-  command = "npm run build"
-  publish = "/" # Or your publish directory, usually "/" for a simple static site
+  # This line can often be removed if you don't have a build step
+  # command = "npm run build"
+  
+  # Corrected: Tell Netlify your website files are in the current directory.
+  publish = "."
 
 [functions]
+  # Ensure this path matches where your 'generate-content.js' file is.
+  # The standard is a 'functions' folder inside a 'netlify' folder.
   directory = "netlify/functions"

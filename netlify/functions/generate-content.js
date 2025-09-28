@@ -16,7 +16,7 @@ exports.handler = async function (event, context) {
   }
 
   try {
-    // --- CRITICAL CHANGE #1: Read 'messages' instead of 'prompt' ---
+    // --- FIX #1: Correctly reads the 'messages' array from the request ---
     const { messages } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
 
@@ -24,7 +24,7 @@ exports.handler = async function (event, context) {
       throw new Error('ANTHROPIC_API_KEY is not set on the server.');
     }
     
-    // Check if messages exist and is an array
+    // Basic validation for the incoming data
     if (!messages || !Array.isArray(messages)) {
         return {
             statusCode: 400,
@@ -40,16 +40,16 @@ exports.handler = async function (event, context) {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            model: 'claude-3-5-sonnet-latest', // Using the recommended latest model
+            // Using the specific model you requested
+            model: 'claude-sonnet-4-20250514', 
             max_tokens: 4096,
-            // --- CRITICAL CHANGE #2: Pass the entire 'messages' array ---
-            messages: messages, 
+            // --- FIX #2: Passes the full conversation history to the API ---
+            messages: messages,
         }),
     });
 
     if (!response.ok) {
         const errorData = await response.json();
-        console.error("Anthropic API Error:", errorData);
         return {
             statusCode: response.status,
             body: JSON.stringify({ error: `Anthropic API error: ${errorData.error.message}` }),
