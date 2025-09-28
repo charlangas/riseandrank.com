@@ -1,30 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
-    // --- NEW: MOBILE NAVIGATION SCRIPT ---
+    // --- MOBILE NAVIGATION TOGGLE SCRIPT ---
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     const navWrapper = document.querySelector('.nav-wrapper');
-    const navToggle = document.querySelector('.mobile-nav-toggle');
-    const hamburgerIcon = navToggle.querySelector('.icon-hamburger');
-    const closeIcon = navToggle.querySelector('.icon-close');
-    const body = document.body;
-
-    navToggle.addEventListener('click', () => {
-        const isVisible = navWrapper.getAttribute('data-visible');
-
-        if (isVisible === 'false' || isVisible === null) {
-            navWrapper.setAttribute('data-visible', true);
-            navToggle.setAttribute('aria-expanded', true);
-            hamburgerIcon.style.display = 'none';
-            closeIcon.style.display = 'block';
-            body.classList.add('nav-open');
-        } else {
-            navWrapper.setAttribute('data-visible', false);
-            navToggle.setAttribute('aria-expanded', false);
-            hamburgerIcon.style.display = 'block';
-            closeIcon.style.display = 'none';
-            body.classList.remove('nav-open');
-        }
-    });
-
+    
+    if (mobileNavToggle && navWrapper) {
+        mobileNavToggle.addEventListener('click', () => {
+            const isVisible = navWrapper.getAttribute('data-visible') === 'true';
+            if (isVisible) {
+                navWrapper.setAttribute('data-visible', 'false');
+                mobileNavToggle.setAttribute('aria-expanded', 'false');
+            } else {
+                navWrapper.setAttribute('data-visible', 'true');
+                mobileNavToggle.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+    
     // --- FAQ ACCORDION SCRIPT ---
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
