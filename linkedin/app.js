@@ -197,24 +197,27 @@ const main = async () => {
             const result = await callClaudeAPI(conversationHistory);
 
             if (result) {
+                // Add the AI's response to the history to maintain context.
                 conversationHistory.push({ role: 'assistant', content: result });
 
-                let startIndex = result.search(/1\.\s*\*\*Post Title/);
-                if (startIndex === -1) { 
-                    startIndex = result.search(/\*\*Post Title/);
-                }
-                if (startIndex === -1) { startIndex = 0; }
+                // --- FIX STARTS HERE ---
+                // The regex now correctly looks for "1. Post Title / Hook:" to find the start of the list.
+                let startIndex = result.search(/\d+\.\s*Post Title \/ Hook:/);
+                if (startIndex === -1) { startIndex = 0; } // Fallback in case the format is unexpected
                 
                 const ideaListText = result.substring(startIndex);
-                const ideas = ideaListText.trim().split(/\n\s*(?=\d+\.\s*\*\*Post Title)/).filter(Boolean);
+                // The regex for splitting now matches the correct pattern, separating each numbered idea.
+                const ideas = ideaListText.trim().split(/\n\s*(?=\d+\.\s*Post Title \/ Hook:)/).filter(Boolean);
+                // --- FIX ENDS HERE ---
 
-                if (ideas.length === 0) {
-                    alert("Could not parse ideas from the API response. Please try again.");
+                if (ideas.length === 0 || ideas.length === 1) { // Check if splitting failed
+                    alert("Could not parse individual ideas from the API response. The format might have changed. Please check the console.");
+                    console.error("Original API response:", result);
                     return;
                 }
 
                 ideasOutput.innerHTML = ''; 
-                // --- MODIFIED: Changed from radio buttons to checkboxes ---
+                // This loop will now correctly create a checkbox for each of the 7 ideas.
                 ideas.forEach((ideaText, index) => {
                     const cleanIdeaText = ideaText.trim(); 
                     const checkId = `idea-${index}`;
