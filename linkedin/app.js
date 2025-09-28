@@ -64,6 +64,10 @@ const main = async () => {
         const loadingIndicator = document.getElementById('loading-indicator');
 
         const API_URL = '/.netlify/functions/generate-content';
+        
+        // NEW: This variable will store the entire conversation.
+        let conversationHistory = [];
+
         const PAIN_POINTS = [
             "Poor lead quality / too many low-value leads",
             "Low conversion from lead to SQL",
@@ -301,7 +305,8 @@ const main = async () => {
             return options[Math.floor(Math.random() * options.length)].value;
         };
 
-        const callClaudeAPI = async (prompt) => {
+        // UPDATED: This function now accepts a 'messages' array.
+        const callClaudeAPI = async (messages) => {
             if (!await auth0Client.isAuthenticated()) {
                 alert('Session expired. Please log in again.');
                 return null;
@@ -317,7 +322,8 @@ const main = async () => {
                         'content-type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ prompt })
+                    // UPDATED: Sends the full 'messages' array to the backend.
+                    body: JSON.stringify({ messages })
                 });
 
                 const data = await response.json();
@@ -334,13 +340,23 @@ const main = async () => {
         };
 
         const handleGenerateIdeas = async () => {
+            // NEW: Reset history for a new conversation.
+            conversationHistory = [];
+
             let painPoint = painPointSelect.value === 'random' ? getRandomOption(painPointSelect) : painPointSelect.value;
             let department = departmentSelect.value === 'random' ? getRandomOption(departmentSelect) : departmentSelect.value;
             
-            const prompt = PROMPT_1_TEMPLATE(painPoint, department, personaInput.value, goalSelect.value);
-            const result = await callClaudeAPI(prompt);
+            const prompt1 = PROMPT_1_TEMPLATE(painPoint, department, personaInput.value, goalSelect.value);
+            
+            // NEW: Add the user's first message to the history.
+            conversationHistory.push({ role: 'user', content: prompt1 });
+
+            const result = await callClaudeAPI(conversationHistory);
 
             if (result) {
+                // NEW: Add the AI's response to the history to maintain context.
+                conversationHistory.push({ role: 'assistant', content: result });
+
                 let startIndex = result.search(/1\.\s*\*\*Post Title/);
                 if (startIndex === -1) { 
                     startIndex = result.search(/\*\*Post Title/);
@@ -398,8 +414,13 @@ const main = async () => {
             }
 
             const selectedIdea = unescape(selectedValue);
-            const prompt = PROMPT_2_TEMPLATE(selectedIdea, anecdoteTextarea.value);
-            const result = await callClaudeAPI(prompt);
+            const prompt2 = PROMPT_2_TEMPLATE(selectedIdea, anecdoteTextarea.value);
+
+            // NEW: Add the user's second message to the existing history.
+            conversationHistory.push({ role: 'user', content: prompt2 });
+            
+            // NEW: Send the entire conversation history to the API.
+            const result = await callClaudeAPI(conversationHistory);
 
             if (result) {
                 postsOutput.innerHTML = '';

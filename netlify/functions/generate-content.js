@@ -22,7 +22,8 @@ exports.handler = async function (event, context) {
   }
 
   try {
-    const { prompt } = JSON.parse(event.body);
+    // UPDATED: Now expects a 'messages' array instead of a single 'prompt'
+    const { messages } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
 
     if (!apiKey) {
@@ -37,10 +38,11 @@ exports.handler = async function (event, context) {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            // === THIS LINE IS UPDATED BASED ON THE NEW DOCS ===
-            model: 'claude-sonnet-4-20250514', // 
+            // UPDATED: Using the specific model identifier for Sonnet 4 as requested.
+            model: 'claude-sonnet-4-20250514', 
             max_tokens: 4096,
-            messages: [{ role: 'user', content: prompt }],
+            // UPDATED: Passes the full conversation history to the API.
+            messages: messages,
         }),
     });
 
