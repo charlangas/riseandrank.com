@@ -1,22 +1,34 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function (event, context) {
+  // CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': 'https://riseandrank.com',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS'
+  };
+
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+
   // --- User Authentication Check ---
-  const { user } = context.clientContext;
-  if (!user || !user.email.endsWith('@riseandrank.com')) {
+  const authHeader = event.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return {
-      statusCode: user ? 403 : 401,
-      body: JSON.stringify({ error: user ? 'Forbidden' : 'Unauthorized' }),
+      statusCode: 401,
+      headers,
+      body: JSON.stringify({ error: 'Unauthorized - Missing token' }),
     };
   }
 
   // --- Method Check ---
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return { statusCode: 405, headers, body: 'Method Not Allowed' };
   }
 
   try {
-    // --- FIX #1: Correctly reads the 'messages' array from the request ---
     const { messages } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
 
@@ -24,10 +36,10 @@ exports.handler = async function (event, context) {
       throw new Error('ANTHROPIC_API_KEY is not set on the server.');
     }
     
-    // Basic validation for the incoming data
     if (!messages || !Array.isArray(messages)) {
         return {
             statusCode: 400,
+            headers,
             body: JSON.stringify({ error: "Request body must contain a 'messages' array." }),
         };
     }
@@ -40,10 +52,8 @@ exports.handler = async function (event, context) {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            // Using the specific model you requested
             model: 'claude-3-5-sonnet-latest', 
             max_tokens: 4096,
-            // --- FIX #2: Passes the full conversation history to the API ---
             messages: messages,
         }),
     });
@@ -52,7 +62,8 @@ exports.handler = async function (event, context) {
         const errorData = await response.json();
         return {
             statusCode: response.status,
-            body: JSON.stringify({ error: `Anthropic API error: ${errorData.error.message}` }),
+            headers,
+            body: JSON.stringify({ error: `Anthropic API error: ${errorData.error?.message || 'Unknown error'}` }),
         };
     }
 
@@ -60,6 +71,7 @@ exports.handler = async function (event, context) {
 
     return {
         statusCode: 200,
+        headers,
         body: JSON.stringify({ content: data.content[0].text }),
     };
 
@@ -67,6 +79,7 @@ exports.handler = async function (event, context) {
     console.error("Serverless Function Error:", error);
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ error: error.message }),
     };
   }
