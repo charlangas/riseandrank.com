@@ -65,7 +65,6 @@ const main = async () => {
 
         const API_URL = '/.netlify/functions/generate-content';
         
-        // This variable will store the entire conversation.
         let conversationHistory = [];
 
         const PAIN_POINTS = [
@@ -95,7 +94,22 @@ const main = async () => {
         - TONE OF VOICE: Authoritative, insightful, empathetic.
         For each idea, provide a compelling "Post Title / Hook", the "Recommended Post Type" (e.g., Story, Listicle, Contrarian Take), a "Key Angle / Rationale", and a "Primary Call-to-Engagement (CTE)".
         `;
+        
+        // --- NEW: Humanization prompt added ---
+        const HUMANIZATION_PROMPT = `
+        The following are strict requirements for the content above:
 
+        Grammatical rules:
+        - No em dashes.
+        - Active voice.
+        - Concise, conversational sentences.
+        - Use short transitional prompts to keep readers moving, such as “Here is why,” “Let’s break it down,” and “Next steps.”
+
+        Banned words and phrases:
+        Avoid every word or phrase in this list: Accordingly, Additionally, Arguably, Certainly, Consequently, Hence, However, Indeed, Moreover, Nevertheless, Nonetheless, Notwithstanding, Thus, Undoubtedly, Adept, Commendable, Dynamic, Efficient, Ever-evolving, Exciting, Exemplary, Innovative, Invaluable, Robust, Seamless, Synergistic, Thought-provoking, Transformative, Utmost, Vibrant, Vital, Efficiency, Innovation, Institution, Integration, Implementation, Landscape, Optimization, Realm, Tapestry, Transformation, Aligns, Augment, Delve, Embark, Facilitate, Maximize, Underscores, Utilize, A testament to, In conclusion, In summary, It's important to note/consider, It's worth noting that, On the contrary, This is not an exhaustive list, A journey of, A multitude of, A plethora of, Actionable insights, Adoption rate, Aforementioned, Agile, AI-powered, Ample opportunities, Amplify, Arduous, As a result, As such, At length, At the end of the day, Bandwidth, Based on the information provided, Basic, Best practices, Blockchain-enabled, Brand awareness, Broadly speaking, Burgeoning, Cannot be overstated, Capacity building, Captivating, Change management, Cloud-based, Cognizant, Collaborative environment, Competitive landscape, Complexity, Conceptualize, Conducting, Considerable, Continuous improvement, Core, Corporate social responsibility, Cost optimization, Craft, Critical, Crucial, Customer loyalty, Customer satisfaction, Customer-centric, Cutting-edge, Data-driven, Decision-makers, Deep dive, Deep dive into, Deep understanding, Deliverables, Delve into, Delved, Delving, Delving into the intricacies of, Demonstrates significant, Deployment plan, Digital realm, Digital transformation, Disruptive innovation, Domain expertise, Downtime, Drive, Driven approach, Driving innovation, Dynamic environment, Elevate, Embark on a journey, Embark on a voyage, Embarked, Emerging technologies, Empower, Enable, Encountered hurdles, Enhance, Enhancing, Enlightening, Enriches, Entails, Entrenched, Epicenter, Essential, Essentially, Esteemed, Ethical considerations, Excels, Expertise, Explore, Flourishing, Folks, For example, For instance, Foray, Foster, Foster innovation, Fostering, Fresh perspectives, From inception to execution, Fundamental, Fundamentally, Furthermore, Future-proof, Game changer, Game-changer, Generally speaking, Given that, Glean, Going forward, Golden ticket, Governance framework, Granular, Granular detail, Granular level, Granularly, Grasp, Groundbreaking, Growing recognition, Herein, Heretofore, High-level, Hinder, Holistic, Holistically, Impactful, Implementation strategy, Implications, Important to consider, In a sea of, In brief, In detail, In effect, In essence, In general, In light of, In other words, In particular, In practice, In terms of, In the dynamic world of, In the realm of, In theory, In today's rapidly evolving market, In today's world, Industry best practices, Influencers, Insights into, Issue resolution, It is important to note, It is worth noting, It's important to remember, Iteration, Kaleidoscope, Key, Key takeaways, Knowledge transfer, KPIs, Latency, Leverage, Linchpin, Low-level, Manifold, Market penetration, Market share, Market trends, Milestone, Mission-critical, Moving forward, Multifaceted, MVP, Namely, Navigating the landscape, Navigating the complexities of, New heights, Next-generation, Notable, Nuanced, Numerous, Offboarding, Offer a comprehensive, Offerings, On the ascent to, On the cutting edge, On the other hand, Onboarding, Operational efficiency, Operational excellence, Optimize, Pain point, Paradigm, Paradigm shift, Paramount, Particularly in areas, Performance optimization, Pervasive, Pivotal, Plethora, POC, Preemptively, Primary, Problem solving, Process optimization, Profitability, Profound, Promote, Pronged, Quality assurance, Quality control, Rapidly evolving, Reaching new heights, Recognize, Regulatory compliance, Relentless, Remarkable, Resonate, Resource allocation, Resource optimization, Revenue growth, Risk mitigation, Roadmap, ROI, Root cause analysis, Scalable, Scrum, Secondary, Shed light, Shedding light on, Showcasing, Significant, Significantly contributes, Simply put, SLA, Solution development, Specifically, Specifically speaking, Sprint, Stakeholders, State-of-the-art, Strategic alignment, Streamline, Strive, Strong presence, Subject matter experts, Substantial, Substantially, Sustainability, Synergistically, Synergy, Systemic, Tailor, TCO, Tertiary, That being said, The future of, The linchpin of, The next frontier, The power of, The road ahead, Thereby, Therefore, Therein, Thereof, Thought leaders, Thought leadership, Thrive, Thriving, Throughput, Time optimization, To clarify, To demonstrate, To elevate, To elucidate, To emphasize, To empower, To enhance, To enrich, To exemplify, To furnish, To highlight, To illustrate, To provide, To reiterate, To shed light on, To showcase, To summarize, To thrive, To underscore, To unleash, To unlock, Touchpoint, Transforming the way, Treasure trove, Ultimately, Uncharted waters, Undeniable, Understanding of your unique, Unleash, Unlock, Unparalleled, Uptime, User engagement, User experience, User feedback, User interface, Valuable, Value proposition, Value-added, Various, Vast, Well-crafted, Whilst, Whilst it is true, Widely recognized, With a keen eye on, With regards to.
+        `;
+
+        // --- MODIFIED: Prompt 2 now includes the humanization rules ---
         const PROMPT_2_TEMPLATE = (selectedIdea, anecdote) => `
         You are a Master LinkedIn Ghostwriter.
         Your task is to write 3 full LinkedIn post drafts based on the selected idea.
@@ -105,6 +119,7 @@ const main = async () => {
         - DESIRED TONE: Authoritative, insightful, empathetic.
         Produce 3 distinct drafts: 1) A problem/solution draft, 2) A data-led story draft, and 3) A provocative "You're doing it wrong" angle draft.
         Format the output clearly with "--- DRAFT 1 ---", "--- DRAFT 2 ---", etc.
+        ${HUMANIZATION_PROMPT}
         `;
 
         // --- FUNCTIONS ---
@@ -153,7 +168,6 @@ const main = async () => {
                         'content-type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    // Sends the full 'messages' array to the backend.
                     body: JSON.stringify({ messages })
                 });
 
@@ -171,7 +185,6 @@ const main = async () => {
         };
 
         const handleGenerateIdeas = async () => {
-            // Reset history for a new conversation.
             conversationHistory = [];
 
             let painPoint = painPointSelect.value === 'random' ? getRandomOption(painPointSelect) : painPointSelect.value;
@@ -179,13 +192,11 @@ const main = async () => {
             
             const prompt1 = PROMPT_1_TEMPLATE(painPoint, department, personaInput.value, goalSelect.value);
             
-            // Add the user's first message to the history.
             conversationHistory.push({ role: 'user', content: prompt1 });
 
             const result = await callClaudeAPI(conversationHistory);
 
             if (result) {
-                // Add the AI's response to the history to maintain context.
                 conversationHistory.push({ role: 'assistant', content: result });
 
                 let startIndex = result.search(/1\.\s*\*\*Post Title/);
@@ -203,92 +214,101 @@ const main = async () => {
                 }
 
                 ideasOutput.innerHTML = ''; 
+                // --- MODIFIED: Changed from radio buttons to checkboxes ---
                 ideas.forEach((ideaText, index) => {
                     const cleanIdeaText = ideaText.trim(); 
-                    const radioId = `idea-${index}`;
+                    const checkId = `idea-${index}`;
                     const div = document.createElement('div');
                     div.className = 'idea-item';
                     div.innerHTML = `
-                        <input type="radio" id="${radioId}" name="selectedIdea" value="${escape(cleanIdeaText)}">
-                        <label for="${radioId}">${cleanIdeaText.replace(/\n/g, '<br>')}</label>
+                        <input type="checkbox" id="${checkId}" name="ideaCheckbox" value="${escape(cleanIdeaText)}">
+                        <label for="${checkId}">${cleanIdeaText.replace(/\n/g, '<br>')}</label>
                     `;
                     ideasOutput.appendChild(div);
                 });
                 
-                const radioId = 'idea-random';
-                const div = document.createElement('div');
-                div.className = 'idea-item';
-                div.innerHTML = `
-                    <input type="radio" id="${radioId}" name="selectedIdea" value="random">
-                    <label for="${radioId}"><strong>-- I'm Feeling Lucky (Pick One for Me) --</strong></label>
-                `;
-                ideasOutput.appendChild(div);
-
                 step2Section.classList.remove('hidden');
+                prompt2Inputs.classList.add('hidden'); // Hide step 3 until a box is checked
                 finalOutputSection.classList.add('hidden');
                 postsOutput.innerHTML = '';
             }
         };
         
+        // --- MODIFIED: This function now handles multiple checkbox selections ---
         const handleGeneratePosts = async () => {
-            let selectedValue = document.querySelector('input[name="selectedIdea"]:checked')?.value;
+            const selectedCheckboxes = document.querySelectorAll('input[name="ideaCheckbox"]:checked');
 
-            if (!selectedValue) {
-                alert('Please select an idea first.');
+            if (selectedCheckboxes.length === 0) {
+                alert('Please select at least one idea.');
                 return;
             }
-
-            if (selectedValue === 'random') {
-                const allIdeaRadios = document.querySelectorAll('input[name="selectedIdea"]:not([value="random"])');
-                const randomRadio = allIdeaRadios[Math.floor(Math.random() * allIdeaRadios.length)];
-                selectedValue = randomRadio.value;
-            }
-
-            const selectedIdea = unescape(selectedValue);
-            const prompt2 = PROMPT_2_TEMPLATE(selectedIdea, anecdoteTextarea.value);
-
-            // Add the user's second message to the existing history.
-            conversationHistory.push({ role: 'user', content: prompt2 });
             
-            // Send the entire conversation history to the API.
-            const result = await callClaudeAPI(conversationHistory);
+            postsOutput.innerHTML = ''; // Clear previous results before generating new ones
+            finalOutputSection.classList.remove('hidden');
+            const anecdote = anecdoteTextarea.value;
 
-            if (result) {
-                postsOutput.innerHTML = '';
-                const drafts = result.split(/--- DRAFT \d+ ---/);
+            // Use a for...of loop to handle async calls sequentially
+            for (const checkbox of selectedCheckboxes) {
+                const selectedIdea = unescape(checkbox.value);
+
+                // Add a header for each set of generated drafts
+                const ideaHeader = document.createElement('h3');
+                const ideaFirstLine = selectedIdea.split('\n')[0].replace(/\*\*/g, '');
+                ideaHeader.textContent = `Drafts for: "${ideaFirstLine}"`;
+                ideaHeader.className = 'idea-results-header';
+                postsOutput.appendChild(ideaHeader);
                 
-                drafts.filter(d => d.trim()).forEach((draft, index) => {
-                    const draftContainer = document.createElement('div');
-                    draftContainer.className = 'post-draft';
+                const prompt2 = PROMPT_2_TEMPLATE(selectedIdea, anecdote);
+
+                // Create a temporary message array for this specific call
+                const messagesForThisCall = [...conversationHistory, { role: 'user', content: prompt2 }];
+                
+                const result = await callClaudeAPI(messagesForThisCall);
+
+                if (result) {
+                    const drafts = result.split(/--- DRAFT \d+ ---/);
                     
-                    draftContainer.innerHTML = `
-                        <div class="post-header">
-                            <h3>Draft ${index + 1}</h3>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                        <div class="post-content">${draft.trim().replace(/\n/g, '<br>')}</div>
-                    `;
-                    postsOutput.appendChild(draftContainer);
-                });
-                
-                finalOutputSection.classList.remove('hidden');
-                document.querySelectorAll('.copy-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const content = e.target.closest('.post-draft').querySelector('.post-content').innerText;
-                        navigator.clipboard.writeText(content).then(() => {
-                            e.target.textContent = 'Copied!';
-                            setTimeout(() => { e.target.textContent = 'Copy'; }, 2000);
-                        });
+                    drafts.filter(d => d.trim()).forEach((draft, index) => {
+                        const draftContainer = document.createElement('div');
+                        draftContainer.className = 'post-draft';
+                        
+                        draftContainer.innerHTML = `
+                            <div class="post-header">
+                                <h4>Draft ${index + 1}</h4>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <div class="post-content">${draft.trim().replace(/\n/g, '<br>')}</div>
+                        `;
+                        postsOutput.appendChild(draftContainer);
+                    });
+                } else {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'post-draft error-message';
+                    errorDiv.textContent = 'Failed to generate drafts for this idea.';
+                    postsOutput.appendChild(errorDiv);
+                }
+            }
+            
+            // Re-attach event listeners to all new copy buttons
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const content = e.target.closest('.post-draft').querySelector('.post-content').innerText;
+                    navigator.clipboard.writeText(content).then(() => {
+                        e.target.textContent = 'Copied!';
+                        setTimeout(() => { e.target.textContent = 'Copy'; }, 2000);
                     });
                 });
-            }
+            });
         };
 
         generateIdeasBtn.addEventListener('click', handleGenerateIdeas);
         generatePostsBtn.addEventListener('click', handleGeneratePosts);
+        
+        // --- MODIFIED: Event listener now shows Step 3 if ANY checkbox is checked ---
         ideasOutput.addEventListener('change', (e) => {
-            if (e.target.name === 'selectedIdea') {
-                prompt2Inputs.classList.remove('hidden');
+            if (e.target.name === 'ideaCheckbox') {
+                const anyChecked = document.querySelector('input[name="ideaCheckbox"]:checked');
+                prompt2Inputs.classList.toggle('hidden', !anyChecked);
             }
         });
 
@@ -301,5 +321,4 @@ const main = async () => {
     }
 };
 
-// Start the application
 main();
