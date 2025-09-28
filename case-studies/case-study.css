@@ -154,7 +154,6 @@ section {
 
 .solution-list li {
     margin-bottom: var(--spacing-sm);
-    font-weight: bold;
 }
 
 .phase-grid {
