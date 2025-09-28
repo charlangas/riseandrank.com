@@ -1,33 +1,35 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function (event, context) {
+  // --- User Authentication Check ---
   const { user } = context.clientContext;
-
-  if (!user) {
+  if (!user || !user.email.endsWith('@riseandrank.com')) {
     return {
-      statusCode: 401,
-      body: JSON.stringify({ error: 'Unauthorized: You must be logged in.' }),
+      statusCode: user ? 403 : 401,
+      body: JSON.stringify({ error: user ? 'Forbidden' : 'Unauthorized' }),
     };
   }
 
-  if (!user.email.endsWith('@riseandrank.com')) {
-    return {
-      statusCode: 403,
-      body: JSON.stringify({ error: 'Forbidden: Access is restricted to authorized users.' }),
-    };
-  }
-  
+  // --- Method Check ---
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
-    // UPDATED: Now expects a 'messages' array instead of a single 'prompt'
+    // --- CRITICAL CHANGE #1: Read 'messages' instead of 'prompt' ---
     const { messages } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
 
     if (!apiKey) {
-      throw new Error('API key is not set on the server.');
+      throw new Error('ANTHROPIC_API_KEY is not set on the server.');
+    }
+    
+    // Check if messages exist and is an array
+    if (!messages || !Array.isArray(messages)) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "Request body must contain a 'messages' array." }),
+        };
     }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -38,19 +40,19 @@ exports.handler = async function (event, context) {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            // UPDATED: Using the specific model identifier for Sonnet 4 as requested.
-            model: 'claude-sonnet-4-20250514', 
+            model: 'claude-3-5-sonnet-latest', // Using the recommended latest model
             max_tokens: 4096,
-            // UPDATED: Passes the full conversation history to the API.
-            messages: messages,
+            // --- CRITICAL CHANGE #2: Pass the entire 'messages' array ---
+            messages: messages, 
         }),
     });
 
     if (!response.ok) {
         const errorData = await response.json();
+        console.error("Anthropic API Error:", errorData);
         return {
             statusCode: response.status,
-            body: JSON.stringify({ error: errorData.error.message }),
+            body: JSON.stringify({ error: `Anthropic API error: ${errorData.error.message}` }),
         };
     }
 
@@ -60,7 +62,9 @@ exports.handler = async function (event, context) {
         statusCode: 200,
         body: JSON.stringify({ content: data.content[0].text }),
     };
+
   } catch (error) {
+    console.error("Serverless Function Error:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),
