@@ -4,7 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cpr node_modules/@auth0/auth0-spa-js/dist/auth0-spa-js.production.js linkedin/auth0-spa-js.production.js -o"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +13,8 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.4.1",
     "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "cpr": "^3.0.1"
   }
 }

@@ -1,2 +1,6 @@
+[build]
+  command = "npm run build"
+  publish = "/" # Or your publish directory, usually "/" for a simple static site
+
 [functions]
   directory = "netlify/functions"

@@ -111,7 +111,55 @@ section {
 }
 .btn:hover { transform: translateY(-2px); }
 
-/* HERO SECTION */
+/* --- MODIFIED: HEADER NAVIGATION --- */
+.hero-nav, .header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-xl);
+}
+/* The case study page header has a different structure */
+.site-header .header-nav {
+    padding-bottom: 0;
+}
+.header-nav .logo {
+    margin-right: auto; /* Pushes links and button to the right */
+}
+.nav-links {
+    display: flex;
+    gap: var(--spacing-md);
+}
+.nav-links a {
+    font-family: var(--font-heading);
+    color: var(--text-dark);
+    position: relative;
+    padding: var(--spacing-xs) 0;
+    transition: color 0.3s ease;
+}
+/* Animated underline effect */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-blue);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease-in-out;
+}
+.nav-links a:hover {
+    color: var(--primary-blue);
+}
+.nav-links a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+
+/* HERO SECTION (HOMEPAGE) */
 .hero {
     background-color: var(--primary-blue);
     color: var(--text-light);
@@ -126,12 +174,7 @@ section {
     flex-direction: column;
 }
 .hero h1, .hero p { color: var(--text-light); }
-.hero-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: var(--spacing-xl);
-}
+
 .hero-content {
     align-items: center;
     flex-grow: 1;
@@ -146,6 +189,24 @@ section {
     justify-content: flex-end;
     align-self: end;
 }
+/* Adjust hero nav button color */
+.hero-nav .btn {
+    background-color: var(--accent-yellow);
+    color: var(--text-dark);
+}
+/* On the dark hero, nav links should be light */
+.hero-nav .nav-links a {
+    color: var(--text-light);
+}
+.hero-nav .nav-links a:hover {
+    color: var(--accent-yellow);
+}
+.hero-nav .nav-links a::after {
+    background-color: var(--accent-yellow);
+}
+
+
+/* --- ALL OTHER SECTIONS (UNCHANGED) --- */
 
 /* --- MODIFIED: PROBLEM SECTION LAYOUT --- */
 .problem-grid-container {
@@ -314,14 +375,12 @@ section {
 .project-card img {
     margin-bottom: 0;
     transition: transform 0.4s ease;
-
-    /* --- Absolute Positioning for Perfect Fit --- */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image fills the square without distortion */
+    object-fit: cover;
 }
 .project-card .project-image-link > img {
     display: block !important;
@@ -333,8 +392,6 @@ section {
     overflow: hidden;
     border-radius: var(--border-radius-sm);
     margin-bottom: var(--spacing-md);
-
-    /* --- Aspect Ratio Sizing --- */
     height: 0;
     padding-bottom: 100%; /* This creates a perfect square (1:1 ratio) */
 }
@@ -348,7 +405,7 @@ section {
     color: var(--text-light);
     font-family: var(--font-mono);
     text-transform: uppercase;
-    font-size: 1rem; /* Adjusted for a more subtle look */
+    font-size: 1rem;
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
@@ -356,13 +413,8 @@ section {
     opacity: 0;
     transition: opacity 0.4s ease;
 }
-.project-image-link:hover .project-image-overlay {
-    opacity: 1; /* Show on hover */
-}
-.project-image-link:hover img {
-    transform: scale(1.05); /* Adds a subtle zoom to the image on hover */
-}
-/* --- PROJECT CARD LEARN MORE LINK --- */
+.project-image-link:hover .project-image-overlay { opacity: 1; }
+.project-image-link:hover img { transform: scale(1.05); }
 .project-learn-more {
     display: inline-block;
     margin-top: var(--spacing-sm);
@@ -372,13 +424,10 @@ section {
     text-transform: uppercase;
     transition: color 0.2s ease;
 }
-.project-learn-more:hover {
-    color: var(--primary-blue-dark);
-}
-/* --- MODIFIED: DIFFERENTIATION SECTION --- */
+.project-learn-more:hover { color: var(--primary-blue-dark); }
 .differentiation-section h2 { text-align: center; }
 .comparison-table { 
-    background-color: transparent; /* Was --bg-light-blue */
+    background-color: transparent;
     padding-top: var(--spacing-lg); 
 }
 .comparison-column {
@@ -386,9 +435,9 @@ section {
     border: 1px solid var(--border-color);
 }
 .comparison-column h3 {
-    border-bottom: none; /* Removed redundant border */
-    padding-bottom: 0; /* Remove padding */
-    margin-bottom: 0; /* Add for consistency */
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 .comparison-header {
     min-height: 60px;
@@ -413,7 +462,7 @@ section {
 .cta-1 h2 { color: var(--text-light); }
 .cta-2 h2 { color: var(--text-dark); }
 
-/* --- MODIFIED: ABOUT US SECTION --- */
+/* ABOUT US SECTION */
 .about-section .grid-4-col > h2 {
     grid-column: 2 / span 2;
 }
@@ -431,13 +480,8 @@ section {
 .founder-info h3, .founder-info .founder-title {
     margin-bottom: 0;
 }
-.founder-info h3 {
-    color: var(--primary-blue);
-}
-.founder-info p {
-    color: var(--text-dark);
-    margin-bottom: 0;
-}
+.founder-info h3 { color: var(--primary-blue); }
+.founder-info p { color: var(--text-dark); margin-bottom: 0; }
 
 
 /* FAQ SECTION */
@@ -502,18 +546,18 @@ section {
 .footer-social-links {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm); /* Sets space between icons */
+    gap: var(--spacing-sm);
 }
 
 .footer-social-links svg {
     width: 24px;
     height: 24px;
-    fill: currentColor; /* Makes the icon color match the surrounding text */
+    fill: currentColor;
 }
 
 .fade-in-element {
   opacity: 0;
-  transform: translateY(20px); /* Optional: adds a slight upward movement */
+  transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
@@ -522,190 +566,8 @@ section {
   transform: translateY(0);
 }
 
-#hover-trigger {
-  color: var(--text-light);
-}
-
-#hover-trigger:hover {
-    color: var(--accent-yellow);
-}
-
-/* --- BOOKING PAGE --- */
-.booking-widget-wrapper {
-    flex-grow: 1; /* Makes this div take the remaining vertical space */
-    display: flex;
-    justify-content: center; /* Horizontally centers the child */
-    align-items: center; /* Vertically centers the child */
-    width: 100%;
-}
-
-.meetings-iframe-container {
-    width: 100%;
-    max-width: 1024px; /* Adjust as needed for the widget's optimal view */
-    min-height: 650px; /* Prevents the page from collapsing before the widget loads */
-    border-radius: 8px; /* Optional: rounds the corners */
-    overflow: hidden; /* Ensures the iframe respects the border-radius */
-}
-
-.form-section {
-    padding-bottom: var(--spacing-xl);
-    padding-top: 0;
-    margin-bottom: 20px;
-}
-
-.form-section h2 {
-    text-align: center;
-    margin-bottom: var(--spacing-xs);
-    padding-top: var(--spacing-xl);
-}
-
-.hs-form-wrapper {
-    max-width: 700px; 
-    margin: 0 auto; 
-}
-
-/* --- BOOKING PAGE --- */
-.booking-widget-wrapper {
-    flex-grow: 1; 
-    display: flex;
-    flex-direction: column; /* Changed to column to stack title and widget */
-    justify-content: center; 
-    align-items: center; 
-    width: 100%;
-    padding-bottom: var(--spacing-lg); 
-}
-
-.booking-page-title {
-    color: var(--text-light);
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-    width: 100%; /* Ensures the title takes the full width, forcing it to a new line */
-}
-
-.meetings-iframe-container {
-    position: relative;
-    width: 100%;
-    max-width: 1024px;
-    height: 750px;
-    border-radius: 8px; 
-    overflow: hidden; 
-}
-
-.meetings-iframe-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Loading Indicator Styles */
-.loader-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    z-index: 10;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    opacity: 1;
-    visibility: visible;
-}
-
-.loader-wrapper.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.loader-spinner {
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top: 4px solid var(--accent-yellow);
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin-bottom: var(--spacing-md);
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loader-text {
-    color: var(--text-light);
-    font-family: var(--font-heading);
-    margin-bottom: 0;
-}
-
-/* --- CARD HOVER & FOCUS EFFECTS --- */
-.problem-card, .solution-card {
-    transition: transform 0.3s ease;
-}
-
-/* Apply effects on hover (for desktop) OR when the .is-focused class is present (for mobile) */
-.problem-card:hover, .solution-card:hover,
-.problem-card.is-focused, .solution-card.is-focused {
-    transform: translateY(-8px);
-}
-
-.problem-card:hover h3, .solution-card:hover h3,
-.problem-card.is-focused h3, .solution-card.is-focused h3 {
-    color: var(--primary-blue);
-}
-
-/* --- SVG ANIMATION ON HOVER & FOCUS --- */
-.problem-card svg, .solution-card svg {
-    transition: transform 0.3s ease;
-}
-
-/* Animate the 'X' icon in the problem cards */
-.problem-card:hover svg,
-.problem-card.is-focused svg {
-    transform: rotate(90deg) scale(1.1);
-}
-
-/* Animate the '+' icon in the solution cards */
-.solution-card:hover svg,
-.solution-card.is-focused svg {
-    transform: rotate(180deg) scale(1.1);
-}
-
-/* --- COMPARISON TABLE ICON ANIMATION (FINAL) --- */
-
-/* 1. Base animation for ALL icons */
-.comparison-item svg {
-    transform: scale(0);
-    /* Using nth-of-type is more robust here than nth-child */
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* 2. When the parent table is visible, scale them in */
-.comparison-table.is-visible .comparison-item svg {
-    transform: scale(1);
-}
-
-/* 3. Staggered delays for the FIRST column (.our-agency) */
-.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(2) svg { transition-delay: 0.3s; }
-.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(3) svg { transition-delay: 0.3s; }
-.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(4) svg { transition-delay: 0.4s; }
-.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(5) svg { transition-delay: 0.5s; }
-.comparison-table.is-visible .our-agency .comparison-item:nth-of-type(6) svg { transition-delay: 0.6s; }
-
-/* 4. Staggered delays for the SECOND column (Other Agencies) */
-.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(2) svg { transition-delay: 0.3s; }
-.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(3) svg { transition-delay: 0.4s; }
-.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(4) svg { transition-delay: 0.5s; }
-.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(5) svg { transition-delay: 0.6s; }
-.comparison-table.is-visible .our-agency + .comparison-column .comparison-item:nth-of-type(6) svg { transition-delay: 0.7s; }
-
+#hover-trigger { color: var(--text-light); }
+#hover-trigger:hover { color: var(--accent-yellow); }
 
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 992px) {
@@ -744,7 +606,6 @@ section {
     }
     .about-description { grid-column: 1 / -1; }
     .about-tagline { display: none; }
-    /* MODIFICATION: Added this rule to force founder cards to stack */
     .about-section .founder-card {
         grid-column: 1 / -1;
     }
@@ -764,7 +625,11 @@ section {
     h1 { font-size: 2.25rem; }
     h2 { font-size: 2rem; }
 
-    #nav-btn { display: none; }
+    /* Hide desktop nav elements on mobile */
+    .nav-links { display: none; }
+    #nav-btn { display: none; } /* Original hero button */
+    .site-header .btn { display: none; }
+
 
     .grid-4-col, .grid-2-col { grid-template-columns: 1fr; }
     .hero { min-height: calc(100vh - 20px); }
@@ -795,6 +660,6 @@ section {
     .footer .grid-4-col { grid-template-columns: 1fr; gap: var(--spacing-lg); }
     .results-header { flex-direction: column; align-items: flex-start; gap: var(--spacing-md); }
     .footer .grid-4-col > div {
-    grid-column: auto;
-}
+        grid-column: auto;
+    }
 }
