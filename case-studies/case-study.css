@@ -180,7 +180,7 @@ section {
 
 /* --- Testimonial --- */
 .testimonial-wrapper {
-    margin: var(--spacing-xl) 0;
+    margin: var(--spacing-xs) 0;
     background-color: var(--primary-blue);
     color: var(--text-light);
     padding: var(--spacing-lg);
@@ -209,6 +209,8 @@ section {
     font-family: var(--font-mono);
     font-style: normal;
 }
+
+div.cta-section { padding: var(--spacing-lg); margin-bottom: 20px}
 
 /* ==============================================
 RESPONSIVE ADJUSTMENTS
