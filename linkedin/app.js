@@ -4,8 +4,8 @@ const main = async () => {
 
         // --- AUTH0 CONFIGURATION ---
         auth0Client = await auth0.createAuth0Client({
-            domain: 'YOUR_AUTH0_DOMAIN', // Replace with your Auth0 Domain
-            clientId: 'YOUR_AUTH0_CLIENT_ID', // Replace with your Auth0 Client ID
+            domain: 'dev-658pplz7hlkua00p.us.auth0.com', // Replace with your Auth0 Domain
+            clientId: 'SSfHzCrn2NXoAqaYaRjbwrX7AYhISamg', // Replace with your Auth0 Client ID
             authorizationParams: {
                 redirect_uri: window.location.href,
             },
