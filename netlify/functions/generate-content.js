@@ -41,7 +41,7 @@ exports.handler = async function (event, context) {
         },
         body: JSON.stringify({
             // Using the specific model you requested
-            model: 'claude-sonnet-4-20250514', 
+            model: 'claude-3-5-sonnet-latest', 
             max_tokens: 4096,
             // --- FIX #2: Passes the full conversation history to the API ---
             messages: messages,

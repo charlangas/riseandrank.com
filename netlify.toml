@@ -9,3 +9,4 @@
   # Ensure this path matches where your 'generate-content.js' file is.
   # The standard is a 'functions' folder inside a 'netlify' folder.
   directory = "netlify/functions"
+  timeout = 30
