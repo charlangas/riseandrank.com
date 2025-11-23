@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep-Dive Conversion Audit | Rise and Rank</title>
+    <meta name="description" content="Stop guessing why leads aren't converting. Get a data-driven audit of your industrial digital infrastructure.">
+    
+    <!-- Tracking Scripts -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3DDJ0LDZ0W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3DDJ0LDZ0W');
+    </script>
+    <script>!function () {var reb2b = window.reb2b = window.reb2b || [];if (reb2b.invoked) return;reb2b.invoked = true;reb2b.methods = ["identify", "collect"];reb2b.factory = function (method) {return function () {var args = Array.prototype.slice.call(arguments);args.unshift(method);reb2b.push(args);return reb2b;};};for (var i = 0; i < reb2b.methods.length; i++) {var key = reb2b.methods[i];reb2b[key] = reb2b.factory(key);}reb2b.load = function (key) {var script = document.createElement("script");script.type = "text/javascript";script.async = true;script.src = "https://s3-us-west-2.amazonaws.com/b2bjsstore/b/" + key + "/4N210HE11V6Z.js.gz";var first = document.getElementsByTagName("script")[0];first.parentNode.insertBefore(script, first);};reb2b.SNIPPET_VERSION = "1.0.1";reb2b.load("4N210HE11V6Z");}();</script>
+    
+    <!-- HubSpot Embed Script -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/50405008.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+
+    <!-- YOUR CSS FILE -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Page-Specific Overrides to align strictly with landing page needs while using global vars -->
+    <style>
+        .hero-text-centered {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero-text-centered h1 { text-align: center; }
+        .hero-text-centered .subheader { margin-left: auto; margin-right: auto; }
+        
+        /* Grid Override for 3 cards instead of 4 */
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+        @media (max-width: 768px) {
+            .grid-3-col { grid-template-columns: 1fr; }
+        }
+
+        /* Leak Calculator Visual Styling */
+        .leak-card {
+            background-color: #f8f9fa;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--border-color);
+        }
+        .leak-row {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: var(--spacing-xs);
+            margin-bottom: var(--spacing-xs);
+            border-bottom: 1px solid var(--border-color);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+        .leak-total {
+            background-color: rgba(225, 0, 0, 0.1);
+            color: var(--primary-blue-dark); /* Using dark blue instead of red for text to match palette, or custom red */
+            color: #E10000;
+            padding: var(--spacing-sm);
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: var(--spacing-sm);
+        }
+
+        /* Calendar Container */
+        .calendar-wrapper {
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            min-height: 600px;
+            margin-top: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+
+    <main class="site-wrapper">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-container">
+                <nav class="hero-nav">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="img/logo-white.svg" alt="Rise and Rank Logo" id="hero-logo" style="width: 180px;">
+                        </a>
+                    </div>
+                    <a href="#calendar" class="btn" style="background-color: transparent; border: 1px solid var(--accent-yellow); color: var(--accent-yellow);">Skip to Booking</a>
+                </nav>
+                <div class="hero-content">
+                    <div class="hero-text hero-text-centered">
+                        <div style="font-family: var(--font-mono); color: var(--accent-yellow); text-transform: uppercase; margin-bottom: var(--spacing-sm); letter-spacing: 1px;">
+                            Limited Availability: Q4 Analysis
+                        </div>
+                        <h1>Manufacturing Demand is Soft. <br>Your Pipeline Shouldn't Be.</h1>
+                        <p class="subheader">
+                            Most industrial websites are "brochures" that leak revenue. We identify exactly where your competitors are stealing your market share in a <strong>45-minute Deep-Dive Conversion Audit.</strong>
+                        </p>
+                        <a href="#calendar" class="btn" style="padding: 16px 32px; font-size: 1.1rem;">Book Your Audit</a>
+                        <p style="margin-top: var(--spacing-sm); font-size: 0.9rem; opacity: 0.8; font-family: var(--font-mono);">No Sales Pitch. Just Data.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Blind Spot / Problem Section -->
+        <section class="container" style="padding-top: var(--spacing-xl); padding-bottom: var(--spacing-xl);">
+            <div class="grid-2-col" style="align-items: center;">
+                <div>
+                    <h2 style="font-size: 1rem; font-family: var(--font-mono); color: var(--primary-blue); text-transform: uppercase; letter-spacing: 2px;">The Blind Spot</h2>
+                    <h3 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: var(--spacing-md);">You have a factory floor full of metrics, but a digital pipeline built on guesswork.</h3>
+                    <p>
+                        When the PMI contracts, efficiency is the only lever you have left. Yet, most industrial C-Suites have no idea that their digital infrastructure is rejecting 95% of qualified traffic.
+                    </p>
+                    <p style="border-left: 3px solid var(--accent-yellow); padding-left: var(--spacing-sm); font-style: italic; color: #555;">
+                        "We thought our traffic was low. Turns out, our traffic was fine, but our quote request process was broken on mobile. Rise and Rank found it in 10 minutes."
+                    </p>
+                </div>
+                
+                <!-- Leak Visualization Card -->
+                <div class="leak-card">
+                    <div class="leak-row">
+                        <span>Ad Spend (Google/LinkedIn)</span>
+                        <strong>$15,000/mo</strong>
+                    </div>
+                    <div class="leak-row">
+                        <span>Site Traffic</span>
+                        <strong>3,200 Visitors</strong>
+                    </div>
+                    <div class="leak-row" style="border-bottom: 1px solid #E10000; color: #E10000;">
+                        <span>RFQ Conversion Rate</span>
+                        <strong>0.4% (Industry Avg: 2.8%)</strong>
+                    </div>
+                    <div class="leak-total">
+                        Est. Monthly Revenue Leak: $140,000+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deliverables Section (Using Solution Style) -->
+        <section class="solution-cards-wrapper" style="background-color: var(--bg-light-blue);">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+                    <h2 style="text-align:center;">What You Get in 30 Minutes</h2>
+                    <p>Not a sales deck. A diagnostic session.</p>
+                </div>
+
+                <!-- Custom 3 Col Grid -->
+                <div class="grid-3-col">
+                    <!-- Card 1 -->
+                    <div class="solution-card" style="border-left: 2px solid var(--text-light); padding-left: var(--spacing-md);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00A486" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <h3>1. UX Stress-Test</h3>
+                        <p>We manually walk through your RFQ process on mobile and desktop to identify the exact friction points causing procurement officers to abandon your site.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="solution-card" style="border-left: 2px solid var(--text-light); padding-left: var(--spacing-md);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#E10000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        <h3>2. Competitor Spy Report</h3>
+                        <p>We pull the data on what your top 3 competitors are spending on Google Ads, what keywords they own, and where they are out-bidding you.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="solution-card" style="border-left: 2px solid var(--text-light); padding-left: var(--spacing-md);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00A486" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <h3>3. The "Fix It" Roadmap</h3>
+                        <p>You leave with a prioritized checklist of "Quick Wins" you can implement immediately to improve conversion, whether you hire us or not.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section id="calendar" class="container" style="text-align: center; padding-top: var(--spacing-xl);">
+            <span style="font-family: var(--font-mono); color: var(--primary-blue); text-transform: uppercase; letter-spacing: 1px;">Phase 1: Diagnostic</span>
+            <h2 style="margin-top: var(--spacing-sm); text-align:center;">Schedule Your Deep-Dive</h2>
+            <p style="max-width: 600px; margin: 0 auto;">Select a time below. You will be meeting directly with a Senior Strategist, not a sales rep.</p>
+            
+            <div class="calendar-wrapper" style="background-color: #010AD1;">
+                <div class="booking-widget-wrapper">
+                    <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/riseandrank/jose-and-carlos?embed=true">
+                        <div class="loader-wrapper">
+                            <div class="loader-spinner"></div>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+                </div>
+            </div>
+            
+            <div style="margin-top: var(--spacing-md);">
+                <p style="font-family: var(--font-mono); font-size: 0.9rem;">Prefer email? <a href="mailto:hello@riseandrank.com" style="color: var(--primary-blue); text-decoration: underline;">hello@riseandrank.com</a></p>
+            </div>
+        </section>
+
+        <!-- Social Proof (Condensed) -->
+        <section style="background-color: #f9f9f9; border-top: 1px solid var(--border-color);">
+            <div class="container grid-2-col" style="align-items: center;">
+                <div>
+                    <h2>Why trust us?</h2>
+                    <p>We are industrial marketing veterans with 30 years of combined experience dealing with complex B2B sales cycles, long lead times, and skeptical CFOs.</p>
+                    <div style="display: flex; gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                         <div style="display: flex; align-items: center; gap: 10px;">
+                            <img src="img/carlos.jpg" alt="Carlos" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" onerror="this.src='https://placehold.co/100x100?text=CO';">
+                            <div>
+                                <strong style="display: block; line-height: 1;">Carlos Ochoa</strong>
+                                <span style="font-size: 0.8rem; font-family: var(--font-mono);">Co-Founder</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <img src="img/chacon.jpg" alt="Jose" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" onerror="this.src='https://placehold.co/100x100?text=JC';">
+                            <div>
+                                <strong style="display: block; line-height: 1;">José Chacón</strong>
+                                <span style="font-size: 0.8rem; font-family: var(--font-mono);">Co-Founder</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: var(--spacing-md); background: white; border-left: 4px solid var(--primary-blue);">
+                    <p style="font-style: italic; font-size: 1.1rem; margin-bottom: var(--spacing-sm);">"Our CFO went from questioning our marketing spend to asking for more budget. The attribution tracking Rise & Rank built finally proved our ROI."</p>
+                    <p style="color: var(--primary-blue); font-family: var(--font-mono); font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">Manufacturing Client, $80M Revenue</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container grid-4-col">
+                <div class="footer-col-1">
+                    <img src="img/logo-white.svg" alt="Rise and Rank Logo" onerror="this.src='https://placehold.co/200x50/333333/FFFFFF?text=RISE+AND+RANK';">
+                    <p>Marketing attribution & pipeline generation for the enterprise</p>
+                </div>
+                <div class="footer-col-3 col-start-3">
+                    <p class="footer-heading">Company</p>
+                    <a href="index.html#problem">The Struggle</a>
+                    <a href="index.html#solution">Our Solution</a>
+                    <a href="index.html#process">Our Process</a>
+                </div>
+                <div class="footer-col-4 col-start-4">
+                    <p class="footer-heading">Contact Us</p>
+                    <a href="mailto:hello@riseandrank.com">hello@riseandrank.com</a>
+                    <a href="tel:+12107304525">+1 (210) 730-4525</a>
+                    <div class="footer-social-links">
+                        <a href="https://www.linkedin.com/company/riseandrank/" target="_blank" aria-label="LinkedIn Profile">
+                            <svg viewBox="0 0 24 24"><path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 12.9,11.2V10.13H10.13V18.5H12.9V13.57C12.9,12.8 13.5,12.17 14.31,12.17C15.1,12.17 15.69,12.8 15.69,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.78,5.2 6.88,5.2A1.69,1.69 0 0,0 5.2,6.88C5.2,7.78 6,8.56 6.88,8.56M8.27,18.5V10.13H5.5V18.5H8.27Z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>
